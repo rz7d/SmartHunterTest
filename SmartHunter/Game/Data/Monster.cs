@@ -77,7 +77,7 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                float size = 0; 
+                float size = 0;
 
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config))
@@ -127,6 +127,67 @@ namespace SmartHunter.Game.Data
             get
             {
                 return IsIncluded(Id) && IsTimeVisible(ConfigHelper.Main.Values.Overlay.MonsterWidget.ShowUnchangedMonsters, ConfigHelper.Main.Values.Overlay.MonsterWidget.HideMonstersAfterSeconds);
+            }
+        }
+
+        public bool IsCapturable
+        {
+            get
+            {
+                var f = Health.Fraction;
+                // 10%
+                if (
+                    Id == "LOC_MONSTER_GOLD_RATHIAN" ||
+                    Id == "LOC_MONSTER_SILVER_RATHALOS"
+                )
+                    return f <= 0.1;
+                // 15%
+                if (
+                    Id == "LOC_MONSTER_AZURE_RATHALOS" ||
+                    Id == "LOC_MONSTER_BLACK_DIABLOS" ||
+                    Id == "LOC_MONSTER_ANJANATH_FULGUR" ||
+                    Id == "LOC_MONSTER_EBONY_ODOGARON"
+                )
+                    return f <= 0.15;
+                // 20%
+                if (
+                    Id == "LOC_MONSTER_LEGIANA" ||
+                    Id == "LOC_MONSTER_ODOGARON" ||
+                    Id == "LOC_MONSTER_RATHALOS" ||
+                    Id == "LOC_MONSTER_DIABLOS" ||
+                    Id == "LOC_MONSTER_LAVASIOTH" ||
+                    Id == "LOC_MONSTER_DEVILJHO" ||
+                    Id == "LOC_MONSTER_URAGAAN" ||
+                    Id == "LOC_MONSTER_PUKEI_PUKEI_CORAL" ||
+                    Id == "LOC_MONSTER_BARIOTH"
+                )
+                    return f <= 0.2;
+                // 25%
+                if (
+                    Id == "LOC_MONSTER_ANJANATH" ||
+                    Id == "LOC_MONSTER_PUKEI_PUKEI" ||
+                    Id == "LOC_MONSTER_JYURATODUS" ||
+                    Id == "LOC_MONSTER_TOBI_KADACHI" ||
+                    Id == "LOC_MONSTER_PAOLUMU" ||
+                    Id == "LOC_MONSTER_RATHIAN" ||
+                    Id == "LOC_MONSTER_PINK_RATHIAN" ||
+                    Id == "LOC_MONSTER_BARROTH" ||
+                    Id == "LOC_MONSTER_BEOTODUS" ||
+                    Id == "LOC_MONSTER_VIPER_TOBI_KADACHI" ||
+                    Id == "LOC_MONSTER_PAOLUMU_NIGHTSHADE"
+                )
+                    return f <= 0.25;
+                // 30%
+                if (
+                    Id == "LOC_MONSTER_GREAT_JAGRAS" ||
+                    Id == "LOC_MONSTER_GREAT_GIRROS" ||
+                    Id == "LOC_MONSTER_DODOGAMA" ||
+                    Id == "LOC_MONSTER_BAZELGEUSE"
+                )
+                    return f <= 0.3;
+
+                // Unknown
+                return false;
             }
         }
 
