@@ -19,8 +19,6 @@ namespace SmartHunter.Core
         enum State
         {
             None,
-            CheckingForUpdates,
-            DownloadingUpdates,
             Restarting,
             WaitingForProcess,
             ProcessFound,
@@ -36,9 +34,9 @@ namespace SmartHunter.Core
         protected abstract string ProcessName { get; }
         protected abstract BytePattern[] Patterns { get; }
 
-        protected virtual int ThreadsPerScan { get { return 2; } }
-        protected virtual int UpdatesPerSecond { get { return 20; } }
-        protected virtual bool ShutdownWhenProcessExits { get { return false; } }
+        protected virtual int ThreadsPerScan => 2;
+        protected virtual int UpdatesPerSecond => 20;
+        protected virtual bool ShutdownWhenProcessExits => false;
 
         protected Process Process { get; private set; }
 
@@ -56,8 +54,6 @@ namespace SmartHunter.Core
 
         void CreateStateMachine()
         {
-            var updater = new Updater();
-
             m_StateMachine = new StateMachine<State>();
 
             m_StateMachine.Add(State.None, new StateMachine<State>.StateData(
@@ -65,58 +61,10 @@ namespace SmartHunter.Core
                 new StateMachine<State>.Transition[]
                 {
                     new StateMachine<State>.Transition(
-                        State.CheckingForUpdates,
-                        () => ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
-                        () =>
-                        {
-                            Log.WriteLine("Searching for updates (You can disable this feature in file 'Config.json')!");
-                        }),
-                    new StateMachine<State>.Transition(
                         State.WaitingForProcess,
-                        () => !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
+                        () => true,
                         () =>
                         {
-                            Initialize();
-                        })
-                }));
-
-            m_StateMachine.Add(State.CheckingForUpdates, new StateMachine<State>.StateData(
-                null,
-                new StateMachine<State>.Transition[]
-                {
-                    new StateMachine<State>.Transition(
-                        State.WaitingForProcess,
-                        () => !updater.CheckForUpdates(),
-                        () =>
-                        {
-                            Initialize();
-                        }),
-                    new StateMachine<State>.Transition(
-                        State.DownloadingUpdates,
-                        () => updater.CheckForUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Starting to download Updates!");
-                        })
-                }));
-
-            m_StateMachine.Add(State.DownloadingUpdates, new StateMachine<State>.StateData(
-                null,
-                new StateMachine<State>.Transition[]
-                {
-                    new StateMachine<State>.Transition(
-                        State.Restarting,
-                        () => updater.DownloadUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Successfully downloaded all files!");
-                        }),
-                    new StateMachine<State>.Transition(
-                        State.WaitingForProcess,
-                        () => !updater.DownloadUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Failed to download Updates... Resuming the normal flow of the application!");
                             Initialize();
                         })
                 }));
