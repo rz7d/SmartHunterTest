@@ -3,6 +3,7 @@ using SmartHunter.Core.Data;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -130,61 +131,59 @@ namespace SmartHunter.Game.Data
             }
         }
 
+        static IDictionary<string, float> CapturableThreshold = new Dictionary<string, float>();
+        static Monster()
+        {
+            // 10%
+            CapturableThreshold.Add("LOC_MONSTER_GOLD_RATHIAN", 0.1F);
+            CapturableThreshold.Add("LOC_MONSTER_SILVER_RATHALOS", 0.1F);
+
+            // 15%
+            CapturableThreshold.Add("LOC_MONSTER_AZURE_RATHALOS", 0.15F);
+            CapturableThreshold.Add("LOC_MONSTER_BLACK_DIABLOS", 0.15F);
+            CapturableThreshold.Add("LOC_MONSTER_ANJANATH_FULGUR", 0.15F);
+            CapturableThreshold.Add("LOC_MONSTER_EBONY_ODOGARON", 0.15F);
+
+            // 20%
+            CapturableThreshold.Add("LOC_MONSTER_LEGIANA", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_ODOGARON", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_RATHALOS", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_DIABLOS", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_LAVASIOTH", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_DEVILJHO", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_URAGAAN", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_PUKEI_PUKEI_CORAL", 0.2F);
+            CapturableThreshold.Add("LOC_MONSTER_BARIOTH", 0.2F);
+
+            // 25%
+            CapturableThreshold.Add("LOC_MONSTER_ANJANATH", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_PUKEI_PUKEI", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_JYURATODUS", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_TOBI_KADACHI", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_PAOLUMU", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_RATHIAN", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_PINK_RATHIAN", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_BARROTH", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_BEOTODUS", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_VIPER_TOBI_KADACHI", 0.25F);
+            CapturableThreshold.Add("LOC_MONSTER_PAOLUMU_NIGHTSHADE", 0.25F);
+
+            // 30%
+            CapturableThreshold.Add("LOC_MONSTER_GREAT_JAGRAS", 0.3F);
+            CapturableThreshold.Add("LOC_MONSTER_GREAT_GIRROS", 0.3F);
+            CapturableThreshold.Add("LOC_MONSTER_DODOGAMA", 0.3F);
+            CapturableThreshold.Add("LOC_MONSTER_BAZELGEUSE", 0.3F);
+        }
+
         public bool IsCapturable
         {
             get
             {
-                var f = Health.Fraction;
-                // 10%
-                if (
-                    Id == "LOC_MONSTER_GOLD_RATHIAN" ||
-                    Id == "LOC_MONSTER_SILVER_RATHALOS"
-                )
-                    return f <= 0.1;
-                // 15%
-                if (
-                    Id == "LOC_MONSTER_AZURE_RATHALOS" ||
-                    Id == "LOC_MONSTER_BLACK_DIABLOS" ||
-                    Id == "LOC_MONSTER_ANJANATH_FULGUR" ||
-                    Id == "LOC_MONSTER_EBONY_ODOGARON"
-                )
-                    return f <= 0.15;
-                // 20%
-                if (
-                    Id == "LOC_MONSTER_LEGIANA" ||
-                    Id == "LOC_MONSTER_ODOGARON" ||
-                    Id == "LOC_MONSTER_RATHALOS" ||
-                    Id == "LOC_MONSTER_DIABLOS" ||
-                    Id == "LOC_MONSTER_LAVASIOTH" ||
-                    Id == "LOC_MONSTER_DEVILJHO" ||
-                    Id == "LOC_MONSTER_URAGAAN" ||
-                    Id == "LOC_MONSTER_PUKEI_PUKEI_CORAL" ||
-                    Id == "LOC_MONSTER_BARIOTH"
-                )
-                    return f <= 0.2;
-                // 25%
-                if (
-                    Id == "LOC_MONSTER_ANJANATH" ||
-                    Id == "LOC_MONSTER_PUKEI_PUKEI" ||
-                    Id == "LOC_MONSTER_JYURATODUS" ||
-                    Id == "LOC_MONSTER_TOBI_KADACHI" ||
-                    Id == "LOC_MONSTER_PAOLUMU" ||
-                    Id == "LOC_MONSTER_RATHIAN" ||
-                    Id == "LOC_MONSTER_PINK_RATHIAN" ||
-                    Id == "LOC_MONSTER_BARROTH" ||
-                    Id == "LOC_MONSTER_BEOTODUS" ||
-                    Id == "LOC_MONSTER_VIPER_TOBI_KADACHI" ||
-                    Id == "LOC_MONSTER_PAOLUMU_NIGHTSHADE"
-                )
-                    return f <= 0.25;
-                // 30%
-                if (
-                    Id == "LOC_MONSTER_GREAT_JAGRAS" ||
-                    Id == "LOC_MONSTER_GREAT_GIRROS" ||
-                    Id == "LOC_MONSTER_DODOGAMA" ||
-                    Id == "LOC_MONSTER_BAZELGEUSE"
-                )
-                    return f <= 0.3;
+                if (CapturableThreshold.ContainsKey(Id))
+                {
+                    float threshold = CapturableThreshold[Id];
+                    return Health.Fraction <= threshold;
+                }
 
                 // Unknown
                 return false;
