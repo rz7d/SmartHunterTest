@@ -131,49 +131,47 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        static IDictionary<string, float> CapturableThreshold = new Dictionary<string, float>();
-        static Monster()
-        {
+        static readonly IDictionary<string, float> CapturableThreshold = new Dictionary<string, float>() {
             // 10%
-            CapturableThreshold.Add("LOC_MONSTER_GOLD_RATHIAN", 0.1F);
-            CapturableThreshold.Add("LOC_MONSTER_SILVER_RATHALOS", 0.1F);
+            { "LOC_MONSTER_GOLD_RATHIAN", 0.1F },
+            { "LOC_MONSTER_SILVER_RATHALOS", 0.1F },
 
             // 15%
-            CapturableThreshold.Add("LOC_MONSTER_AZURE_RATHALOS", 0.15F);
-            CapturableThreshold.Add("LOC_MONSTER_BLACK_DIABLOS", 0.15F);
-            CapturableThreshold.Add("LOC_MONSTER_ANJANATH_FULGUR", 0.15F);
-            CapturableThreshold.Add("LOC_MONSTER_EBONY_ODOGARON", 0.15F);
+            { "LOC_MONSTER_AZURE_RATHALOS", 0.15F },
+            { "LOC_MONSTER_BLACK_DIABLOS", 0.15F },
+            { "LOC_MONSTER_ANJANATH_FULGUR", 0.15F },
+            { "LOC_MONSTER_EBONY_ODOGARON", 0.15F },
 
             // 20%
-            CapturableThreshold.Add("LOC_MONSTER_LEGIANA", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_ODOGARON", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_RATHALOS", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_DIABLOS", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_LAVASIOTH", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_DEVILJHO", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_URAGAAN", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_PUKEI_PUKEI_CORAL", 0.2F);
-            CapturableThreshold.Add("LOC_MONSTER_BARIOTH", 0.2F);
+            { "LOC_MONSTER_LEGIANA", 0.2F },
+            { "LOC_MONSTER_ODOGARON", 0.2F },
+            { "LOC_MONSTER_RATHALOS", 0.2F },
+            { "LOC_MONSTER_DIABLOS", 0.2F },
+            { "LOC_MONSTER_LAVASIOTH", 0.2F },
+            { "LOC_MONSTER_DEVILJHO", 0.2F },
+            { "LOC_MONSTER_URAGAAN", 0.2F },
+            { "LOC_MONSTER_PUKEI_PUKEI_CORAL", 0.2F },
+            { "LOC_MONSTER_BARIOTH", 0.2F },
 
             // 25%
-            CapturableThreshold.Add("LOC_MONSTER_ANJANATH", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_PUKEI_PUKEI", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_JYURATODUS", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_TOBI_KADACHI", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_PAOLUMU", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_RATHIAN", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_PINK_RATHIAN", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_BARROTH", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_BEOTODUS", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_VIPER_TOBI_KADACHI", 0.25F);
-            CapturableThreshold.Add("LOC_MONSTER_PAOLUMU_NIGHTSHADE", 0.25F);
+            { "LOC_MONSTER_ANJANATH", 0.25F },
+            { "LOC_MONSTER_PUKEI_PUKEI", 0.25F },
+            { "LOC_MONSTER_JYURATODUS", 0.25F },
+            { "LOC_MONSTER_TOBI_KADACHI", 0.25F },
+            { "LOC_MONSTER_PAOLUMU", 0.25F },
+            { "LOC_MONSTER_RATHIAN", 0.25F },
+            { "LOC_MONSTER_PINK_RATHIAN", 0.25F },
+            { "LOC_MONSTER_BARROTH", 0.25F },
+            { "LOC_MONSTER_BEOTODUS", 0.25F },
+            { "LOC_MONSTER_VIPER_TOBI_KADACHI", 0.25F },
+            { "LOC_MONSTER_PAOLUMU_NIGHTSHADE", 0.25F },
 
             // 30%
-            CapturableThreshold.Add("LOC_MONSTER_GREAT_JAGRAS", 0.3F);
-            CapturableThreshold.Add("LOC_MONSTER_GREAT_GIRROS", 0.3F);
-            CapturableThreshold.Add("LOC_MONSTER_DODOGAMA", 0.3F);
-            CapturableThreshold.Add("LOC_MONSTER_BAZELGEUSE", 0.3F);
-        }
+            { "LOC_MONSTER_GREAT_JAGRAS", 0.3F },
+            { "LOC_MONSTER_GREAT_GIRROS", 0.3F },
+            { "LOC_MONSTER_DODOGAMA", 0.3F },
+            { "LOC_MONSTER_BAZELGEUSE", 0.3F },
+        };
 
         public bool IsCapturable
         {
