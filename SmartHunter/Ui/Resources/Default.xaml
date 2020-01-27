@@ -786,7 +786,7 @@
                                             </Setter.Value>
                                         </Setter>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Health.Fraction, Converter={StaticResource A_Converter_NumberGreater}, ConverterParameter=0.6}"
+                                    <DataTrigger Binding="{Binding Health.Fraction, Converter={StaticResource A_Converter_NumberGreater}, ConverterParameter=0.3}"
                                                  Value="True">
                                         <Setter Property="Foreground">
                                             <Setter.Value>
