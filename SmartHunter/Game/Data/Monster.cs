@@ -75,6 +75,10 @@ namespace SmartHunter.Game.Data
                 base.Current = value;
                 NotifyPropertyChanged(nameof(IsCapturable));
             }
+            get
+            {
+                return base.Current;
+            }
         }
 
         public bool IsCapturable
