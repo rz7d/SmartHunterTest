@@ -778,7 +778,7 @@
                         <ContentControl.Style>
                             <Style TargetType="ContentControl">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCapturable}"
+                                    <DataTrigger Binding="{Binding Health.IsCapturable}"
                                                  Value="True">
                                         <Setter Property="Foreground">
                                             <Setter.Value>

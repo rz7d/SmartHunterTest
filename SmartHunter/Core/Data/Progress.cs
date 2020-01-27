@@ -15,7 +15,7 @@ namespace SmartHunter.Core.Data
         }
 
         float m_Current;
-        public float Current
+        public virtual float Current
         {
             get { return m_Current; }
             set
@@ -78,4 +78,5 @@ namespace SmartHunter.Core.Data
             return value;
         }
     }
+
 }
