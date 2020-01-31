@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core;
+using SmartHunter.Core;
 using SmartHunter.Core.Data;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Helpers;
@@ -211,7 +211,6 @@ namespace SmartHunter.Game.Data
                         crown = MonsterCrown.Silver;
                     }
                 }
-
                 return crown;
             }
         }
@@ -268,6 +267,7 @@ namespace SmartHunter.Game.Data
             
             if (statusEffect != null)
             {
+                statusEffect.Address = Address;
                 statusEffect.Duration.Max = maxDuration;
                 statusEffect.Duration.Current = currentDuration;
                 statusEffect.Buildup.Max = maxBuildup;
