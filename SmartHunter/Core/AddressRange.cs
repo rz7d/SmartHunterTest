@@ -2,7 +2,7 @@
 
 namespace SmartHunter.Core
 {
-    public class AddressRange
+    public struct AddressRange
     {
         public ulong Start { get; private set; }
         public ulong End { get; private set; }
