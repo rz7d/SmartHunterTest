@@ -10,6 +10,7 @@ namespace SmartHunter.Game.Config
         public string LocalizationFileName = "en-US.json";
         public string SkinFileName = "Default.xaml";
         public string MonsterDataFileName = "MonsterData.json";
+        public string CaptureDataFileName = "CaptureData.json";
         public string PlayerDataFileName = "PlayerData.json";
         public string MemoryFileName = "Memory.json";
 

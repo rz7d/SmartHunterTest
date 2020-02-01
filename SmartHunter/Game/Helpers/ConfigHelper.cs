@@ -12,6 +12,7 @@ namespace SmartHunter.Game.Helpers
         static ConfigContainer<VersionsConfig> s_Versions;
         static ConfigContainer<LocalizationConfig> s_Localization;
         static ConfigContainer<MonsterDataConfig> s_MonsterData;
+        static ConfigContainer<CaptureDataConfig> s_CaptureData;
         static ConfigContainer<PlayerDataConfig> s_PlayerData;
         static ConfigContainer<MemoryConfig> s_Memory;
 
@@ -68,6 +69,19 @@ namespace SmartHunter.Game.Helpers
             }
         }
 
+        public static ConfigContainer<CaptureDataConfig> CaptureData
+        {
+            get
+            {
+                if (s_CaptureData == null)
+                {
+                    s_CaptureData = new ConfigContainer<CaptureDataConfig>(Main.Values.CaptureDataFileName);
+                }
+
+                return s_CaptureData;
+            }
+        }
+
         public static ConfigContainer<PlayerDataConfig> PlayerData
         {
             get
@@ -101,6 +115,7 @@ namespace SmartHunter.Game.Helpers
             var versions = Versions;
             var localization = Localization;
             var monsterData = MonsterData;
+            var captureData = CaptureData;
             var playerData = PlayerData;
             var memory = Memory;
         }
@@ -110,6 +125,7 @@ namespace SmartHunter.Game.Helpers
             Versions.TryChangeFileName(Main.Values.VersionsFileName);
             Localization.TryChangeFileName(Main.Values.LocalizationFileName);
             MonsterData.TryChangeFileName(Main.Values.MonsterDataFileName);
+            CaptureData.TryChangeFileName(Main.Values.CaptureDataFileName);
             PlayerData.TryChangeFileName(Main.Values.PlayerDataFileName);
             Memory.TryChangeFileName(Main.Values.MemoryFileName);
         }
