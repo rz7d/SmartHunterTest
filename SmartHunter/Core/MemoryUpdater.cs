@@ -56,8 +56,6 @@ namespace SmartHunter.Core
 
         void CreateStateMachine()
         {
-            var updater = new Updater();
-
             m_StateMachine = new StateMachine<State>();
 
             m_StateMachine.Add(State.None, new StateMachine<State>.StateData(
@@ -65,80 +63,13 @@ namespace SmartHunter.Core
                 new StateMachine<State>.Transition[]
                 {
                     new StateMachine<State>.Transition(
-                        State.CheckingForUpdates,
-                        () => ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
-                        () =>
-                        {
-                            Log.WriteLine("Searching for updates (You can disable this feature in file 'Config.json')!");
-                        }),
-                    new StateMachine<State>.Transition(
                         State.WaitingForProcess,
-                        () => !ConfigHelper.Main.Values.AutomaticallyCheckAndDownloadUpdates,
-                        () =>
-                        {
-                            Initialize();
-                        })
-                }));
-
-            m_StateMachine.Add(State.CheckingForUpdates, new StateMachine<State>.StateData(
-                null,
-                new StateMachine<State>.Transition[]
-                {
-                    new StateMachine<State>.Transition(
-                        State.WaitingForProcess,
-                        () => !updater.CheckForUpdates(),
-                        () =>
-                        {
-                            Initialize();
-                        }),
-                    new StateMachine<State>.Transition(
-                        State.DownloadingUpdates,
-                        () => updater.CheckForUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Starting to download Updates!");
-                        })
-                }));
-
-            m_StateMachine.Add(State.DownloadingUpdates, new StateMachine<State>.StateData(
-                null,
-                new StateMachine<State>.Transition[]
-                {
-                    new StateMachine<State>.Transition(
-                        State.Restarting,
-                        () => updater.DownloadUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Successfully downloaded all files!");
-                        }),
-                    new StateMachine<State>.Transition(
-                        State.WaitingForProcess,
-                        () => !updater.DownloadUpdates(),
-                        () =>
-                        {
-                            Log.WriteLine("Failed to download Updates... Resuming the normal flow of the application!");
-                            Initialize();
-                        })
-                }));
-
-            m_StateMachine.Add(State.Restarting, new StateMachine<State>.StateData(
-               null,
-               new StateMachine<State>.Transition[]
-               {
-                    new StateMachine<State>.Transition(
-                        State.Restarting,
                         () => true,
                         () =>
                         {
-                            Log.WriteLine("Restarting Application!");
-                            string file = $".\\SmartHunter_{ConfigHelper.Versions.Values.SmartHunter}.exe";
-                            if (File.Exists(file))
-                            {
-                               Process.Start(file);
-                            }
-                            System.Environment.Exit(1);
+                            Initialize();
                         })
-               }));
+                }));
 
             m_StateMachine.Add(State.WaitingForProcess, new StateMachine<State>.StateData(
                 null,

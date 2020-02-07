@@ -1,4 +1,4 @@
-﻿using SmartHunter.Core.Config;
+using SmartHunter.Core.Config;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -6,7 +6,6 @@ namespace SmartHunter.Game.Config
 {
     public class MainConfig
     {
-        public string VersionsFileName = "Versions.json";
         public string LocalizationFileName = "en-US.json";
         public string SkinFileName = "Default.xaml";
         public string MonsterDataFileName = "MonsterData.json";
