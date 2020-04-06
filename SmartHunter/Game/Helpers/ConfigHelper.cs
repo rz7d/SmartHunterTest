@@ -9,7 +9,6 @@ namespace SmartHunter.Game.Helpers
         static readonly string s_MainFileName = "Config.json";
 
         static ConfigContainer<MainConfig> s_Main;
-        static ConfigContainer<VersionsConfig> s_Versions;
         static ConfigContainer<LocalizationConfig> s_Localization;
         static ConfigContainer<MonsterDataConfig> s_MonsterData;
         static ConfigContainer<CaptureDataConfig> s_CaptureData;
@@ -27,19 +26,6 @@ namespace SmartHunter.Game.Helpers
                 }
 
                 return s_Main;
-            }
-        }
-
-        public static ConfigContainer<VersionsConfig> Versions
-        {
-            get
-            {
-                if (s_Versions == null)
-                {
-                    s_Versions = new ConfigContainer<VersionsConfig>(Main.Values.VersionsFileName);
-                }
-
-                return s_Versions;
             }
         }
 
@@ -112,7 +98,6 @@ namespace SmartHunter.Game.Helpers
         public static void EnsureConfigs()
         {
             var main = Main;
-            var versions = Versions;
             var localization = Localization;
             var monsterData = MonsterData;
             var captureData = CaptureData;
@@ -122,7 +107,6 @@ namespace SmartHunter.Game.Helpers
 
         static void Main_Loaded(object sender, System.EventArgs e)
         {
-            Versions.TryChangeFileName(Main.Values.VersionsFileName);
             Localization.TryChangeFileName(Main.Values.LocalizationFileName);
             MonsterData.TryChangeFileName(Main.Values.MonsterDataFileName);
             CaptureData.TryChangeFileName(Main.Values.CaptureDataFileName);

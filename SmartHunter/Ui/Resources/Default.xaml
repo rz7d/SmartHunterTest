@@ -1017,7 +1017,6 @@
     <DataTemplate DataType="{x:Type data:Player}">
         <Grid Name="Root">
             <ContentControl Name="Bar" Content="{Binding BarFraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Foreground="#000000" Visibility="{Binding DataContext.ShowBars, Converter={StaticResource A_Converter_BoolToVisibility}}"/>
-
             <Grid Margin="6 5 6 4" Name="FightDescriptionContainer">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -1048,88 +1047,6 @@
         </Grid>
 
         <DataTemplate.Triggers>
-
-            <!--Show Numbers AND Percents-->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding DataContext.ShowNumbers, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="True" />
-                    <Condition Binding="{Binding DataContext.ShowPercents, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="True" />
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="DescriptionBlockShadow" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1})">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="DescriptionBlock" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0} ({1})">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-            </MultiDataTrigger>
-
-            <!--Show Numbers NOT Percents-->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding DataContext.ShowNumbers, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="True" />
-                    <Condition Binding="{Binding DataContext.ShowPercents, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="False" />
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="DescriptionBlockShadow" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0}">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="DescriptionBlock" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{0}">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-            </MultiDataTrigger>
-
-            <!--Show NOT Numbers AND Percents-->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding DataContext.ShowNumbers, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="False" />
-                    <Condition Binding="{Binding DataContext.ShowPercents, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="True" />
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="DescriptionBlockShadow" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{1}">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-                <Setter TargetName="DescriptionBlock" Property="Text">
-                    <Setter.Value>
-                        <MultiBinding StringFormat="{}{1}">
-                            <Binding Path="Damage" Mode="OneWay" />
-                            <Binding Path="DamageFraction" Mode="OneWay" Converter="{StaticResource A_Converter_FractionToPercentage}" />
-                        </MultiBinding>
-                    </Setter.Value>
-                </Setter>
-            </MultiDataTrigger>
-
-            <!--Show NOT Numbers NOT Percents-->
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding DataContext.ShowNumbers, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="False" />
-                    <Condition Binding="{Binding DataContext.ShowPercents, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}}" Value="False" />
-                </MultiDataTrigger.Conditions>
-                <Setter TargetName="DescriptionContainer" Property="Visibility" Value="Collapsed" />
-            </MultiDataTrigger>
-
             <DataTrigger Binding="{Binding Damage}" Value="0">
                 <Setter TargetName="FightDescriptionContainer" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="DefaultDescriptionContainer" Property="Visibility" Value="Visible" />

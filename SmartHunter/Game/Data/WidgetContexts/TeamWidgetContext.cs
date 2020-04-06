@@ -101,7 +101,7 @@ namespace SmartHunter.Game.Data.WidgetContexts
             int damageDifference = damage - player.Damage;
             DateTime now = DateTime.Now;
 
-            player.DamageHistory.Enqueue((now, damageDifference));
+            player.DamageHistory.Enqueue(new Tuple<DateTime, int>(now, damageDifference));
             DateTime historyCutoff = now - TimeSpan.FromSeconds(DPSTimeWindowInSeconds);
             while (player.DamageHistory.Peek().Item1 < historyCutoff)
                 player.DamageHistory.Dequeue();

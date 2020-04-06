@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using SmartHunter.Core.Data;
 
 namespace SmartHunter.Game.Data
@@ -40,8 +42,8 @@ namespace SmartHunter.Game.Data
             set { SetProperty(ref m_BarFraction, value); }
         }
 
-        public Queue<(DateTime, int)> DamageHistory { get; }
-            = new Queue<(DateTime, int)>();
+        public Queue<Tuple<DateTime, int>> DamageHistory { get; }
+            = new Queue<Tuple<DateTime, int>>();
 
         double _damagePerSecond;
         public double DamagePerSecond
