@@ -300,12 +300,12 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_ALL_AILMENTS_NEGATED", "All Ailments Negated" },
             { "LOC_STATUS_EFFECT_WIND_PRESSURE_NEGATED_AND_EARPLUGS_S", "Wind Pressure Negated & Earplugs (S)" },
             { "LOC_STATUS_EFFECT_ABNORMAL_STATUS_ATTACK_INCREASED", "Abnormal Status Atk. Increased" },
-            
+
             // Orchestra
             { "LOC_STATUS_EFFECT_HEALTH_RECOVERY", "Health Recovery" },
             { "LOC_STATUS_EFFECT_HEALTH_BOOST", "Health Boost" },
             { "LOC_STATUS_EFFECT_STAMINA_USE_REDUCED", "Stamina Use Reduced" },
-            
+
             // Debuffs
             { "LOC_STATUS_EFFECT_FIREBLIGHT", "Fireblight" },
             { "LOC_STATUS_EFFECT_THUNDERBLIGHT", "Thunderblight" },
@@ -319,17 +319,17 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_ELEMENTAL_RESISTANCE_DOWN", "Elemental Resistance Down" },
             { "LOC_STATUS_EFFECT_NO_ITEMS", "No Items" },
             { "LOC_STATUS_EFFECT_BLASTBLIGHT", "Blastblight" },
-            
+
             // Buffs
             { "LOC_STATUS_EFFECT_DASH_JUICE", "Dash Juice" },
             { "LOC_STATUS_EFFECT_WIGGLY_LITCHI", "Wiggly Litchi" },
-            { "LOC_STATUS_EFFECT_IMMUNIZER", "Immunizer" },            
+            { "LOC_STATUS_EFFECT_IMMUNIZER", "Immunizer" },
             { "LOC_STATUS_EFFECT_MIGHT_PILL", "Might Pill" },
-            { "LOC_STATUS_EFFECT_MIGHT_SEED", "Might Seed" },            
+            { "LOC_STATUS_EFFECT_MIGHT_SEED", "Might Seed" },
             { "LOC_STATUS_EFFECT_ADAMANT_PILL", "Adamant Pill" },
-            { "LOC_STATUS_EFFECT_ADAMANT_SEED", "Adamant Seed" },            
+            { "LOC_STATUS_EFFECT_ADAMANT_SEED", "Adamant Seed" },
             { "LOC_STATUS_EFFECT_DEMON_POWDER", "Demon Powder" },
-            { "LOC_STATUS_EFFECT_HARDSHELL_POWDER", "Hardshell Powder" },            
+            { "LOC_STATUS_EFFECT_HARDSHELL_POWDER", "Hardshell Powder" },
             { "LOC_STATUS_EFFECT_DEMONDRUG", "Demondrug" },
             { "LOC_STATUS_EFFECT_MEGA_DEMONDRUG", "Mega Demondrug" },
             { "LOC_STATUS_EFFECT_ARMORSKIN", "Armorskin" },
@@ -419,7 +419,7 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_STAMINA", "Stamina" },
             { "LOC_STATUS_EFFECT_FATIGUE", "Fatigue" },
         };
-        
+
         public LocalizationConfig()
         {
 

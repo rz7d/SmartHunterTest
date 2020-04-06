@@ -40,7 +40,9 @@
     <Color x:Key="A_Color_Player_2">#CCBB11</Color>
     <Color x:Key="A_Color_Player_3">#33BB33</Color>
 
-    <Color x:Key="A_Color_Monster_Bar">#CC0000</Color>
+    <Color x:Key="A_Color_Monster_Bar">#B9B900</Color>
+    <Color x:Key="A_Color_Monster_Healthy_Bar">#09B9AC</Color>
+    <Color x:Key="A_Color_Monster_Capturable_Bar">#B92F00</Color>
     <Color x:Key="A_Color_Monster_Part_Bar">#CC0000</Color>
     <Color x:Key="A_Color_Monster_StatusEffect_Bar">#00CCCC</Color>
 
@@ -801,10 +803,34 @@
                 </StackPanel>
 
                 <Grid Margin="0 2 0 0">
-                    <ContentControl x:Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="20">
-                        <ContentControl.Foreground>
-                            <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
-                        </ContentControl.Foreground>
+                    <ContentControl Name="HealthBar" Content="{Binding Health.Fraction}" ContentTemplate="{StaticResource A_DataTemplate_BarProgress}" Height="20">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Health.IsCapturable}"
+                                                 Value="True">
+                                        <Setter Property="Foreground">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{StaticResource A_Color_Monster_Capturable_Bar}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Health.Fraction, Converter={StaticResource A_Converter_NumberGreater}, ConverterParameter=0.3}"
+                                                 Value="True">
+                                        <Setter Property="Foreground">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{StaticResource A_Color_Monster_Healthy_Bar}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Foreground">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{StaticResource A_Color_Monster_Bar}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ContentControl.Style>
                     </ContentControl>
 
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 2 0 0">

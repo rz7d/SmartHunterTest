@@ -114,7 +114,7 @@ namespace SmartHunter.Game
 
                 ulong currentPlayerNamePtr = MemoryHelper.LoadEffectiveAddressRelative(Process, m_CurrentPlayerNamePattern.MatchedAddresses.First());
                 //ulong currentFelyneNameAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, currentPlayerNamePtr, 0xB40, 0x0, 0x890, 0x160, 0x8, 0x1E8, 0x7DC);
-                
+
 
                 ulong currentPlayerNameAddress = MemoryHelper.ReadMultiLevelPointer(traceUniquePointers, Process, currentPlayerNamePtr, 0xB20, 0x0, 0x530, 0xC0, 0x8, 0x78, 0x78);
 
@@ -203,7 +203,7 @@ namespace SmartHunter.Game
             {
                 OverlayViewModel.Instance.IsGameActive = false;
             }
-            else if (!OverlayViewModel.Instance.IsVisible && 
+            else if (!OverlayViewModel.Instance.IsVisible &&
                 (!ConfigHelper.Main.Values.Overlay.HideWhenGameWindowIsInactive || foregroundWindowHandle == Process.MainWindowHandle))
             {
                 OverlayViewModel.Instance.IsGameActive = true;

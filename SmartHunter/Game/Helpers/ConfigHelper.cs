@@ -1,4 +1,3 @@
-using System;
 using SmartHunter.Config;
 using SmartHunter.Core.Config;
 using SmartHunter.Game.Config;
@@ -10,8 +9,10 @@ namespace SmartHunter.Game.Helpers
         static readonly string s_MainFileName = "Config.json";
 
         static ConfigContainer<MainConfig> s_Main;
+        static ConfigContainer<VersionsConfig> s_Versions;
         static ConfigContainer<LocalizationConfig> s_Localization;
         static ConfigContainer<MonsterDataConfig> s_MonsterData;
+        static ConfigContainer<CaptureDataConfig> s_CaptureData;
         static ConfigContainer<PlayerDataConfig> s_PlayerData;
         static ConfigContainer<MemoryConfig> s_Memory;
 
@@ -26,6 +27,19 @@ namespace SmartHunter.Game.Helpers
                 }
 
                 return s_Main;
+            }
+        }
+
+        public static ConfigContainer<VersionsConfig> Versions
+        {
+            get
+            {
+                if (s_Versions == null)
+                {
+                    s_Versions = new ConfigContainer<VersionsConfig>(Main.Values.VersionsFileName);
+                }
+
+                return s_Versions;
             }
         }
 
@@ -52,6 +66,19 @@ namespace SmartHunter.Game.Helpers
                 }
 
                 return s_MonsterData;
+            }
+        }
+
+        public static ConfigContainer<CaptureDataConfig> CaptureData
+        {
+            get
+            {
+                if (s_CaptureData == null)
+                {
+                    s_CaptureData = new ConfigContainer<CaptureDataConfig>(Main.Values.CaptureDataFileName);
+                }
+
+                return s_CaptureData;
             }
         }
 
@@ -85,16 +112,20 @@ namespace SmartHunter.Game.Helpers
         public static void EnsureConfigs()
         {
             var main = Main;
+            var versions = Versions;
             var localization = Localization;
             var monsterData = MonsterData;
+            var captureData = CaptureData;
             var playerData = PlayerData;
             var memory = Memory;
         }
 
-        static void Main_Loaded(object sender, EventArgs e)
+        static void Main_Loaded(object sender, System.EventArgs e)
         {
+            Versions.TryChangeFileName(Main.Values.VersionsFileName);
             Localization.TryChangeFileName(Main.Values.LocalizationFileName);
             MonsterData.TryChangeFileName(Main.Values.MonsterDataFileName);
+            CaptureData.TryChangeFileName(Main.Values.CaptureDataFileName);
             PlayerData.TryChangeFileName(Main.Values.PlayerDataFileName);
             Memory.TryChangeFileName(Main.Values.MemoryFileName);
         }

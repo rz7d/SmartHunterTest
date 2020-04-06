@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -194,7 +195,7 @@ namespace SmartHunter.Game.Helpers
                 {
                     sourceAddress = weaponAddress;
                 }
-                
+
                 bool allConditionsPassed = true;
                 if (statusEffectConfig.Conditions != null)
                 {
@@ -623,7 +624,7 @@ namespace SmartHunter.Game.Helpers
 
             ulong tmp = monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + DataOffsets.Monster.MonsterHealthComponentOffset;
             ulong health_component = MemoryHelper.Read<ulong>(process, tmp);
-            
+
             string id = MemoryHelper.ReadString(process, tmp + DataOffsets.MonsterModel.IdOffset, (uint)DataOffsets.MonsterModel.IdLength);
             float maxHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.MaxHealth);
 
@@ -895,12 +896,12 @@ namespace SmartHunter.Game.Helpers
             {
                 statusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Stamina"));
             }
-            
+
             if (maxStaminaBuildUp > 0 || currentFatigueDuration > 0)
             {
                 monster.UpdateAndGetStatusEffect(staminaAddress, Array.IndexOf(ConfigHelper.MonsterData.Values.StatusEffects, statusEffect), maxStaminaBuildUp > 0 ? maxStaminaBuildUp : 1, !statusEffect.InvertBuildup ? currentStaminaBuildUp : maxStaminaBuildUp - currentStaminaBuildUp, maxFatigueDuration, !statusEffect.InvertDuration ? currentFatigueDuration : maxFatigueDuration - currentFatigueDuration, fatigueActivatedCount);
             }
-            
+
             // Rage
             ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);

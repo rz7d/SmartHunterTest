@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using SmartHunter.Core;
@@ -14,6 +15,47 @@ namespace SmartHunter.Game.Data
         Mini,
         Silver,
         Gold
+    }
+
+    public class MonsterHealth : Progress
+    {
+        public string Id { get; }
+
+        private CaptureDataConfig Config { get; } = ConfigHelper.CaptureData.Values;
+
+        public MonsterHealth(string id, float max, float current, bool shouldCapCurrent = false) : base(max, current, shouldCapCurrent)
+        {
+            Id = id;
+        }
+
+        public override float Current
+        {
+            set
+            {
+                base.Current = value;
+                NotifyPropertyChanged(nameof(IsCapturable));
+            }
+            get
+            {
+                return base.Current;
+            }
+        }
+
+        public bool IsCapturable
+        {
+            get
+            {
+                if (Config.Thresholds.ContainsKey(Id))
+                {
+                    float threshold = Config.Thresholds[Id];
+                    return Fraction <= threshold;
+                }
+
+                // Unknown
+                return false;
+            }
+        }
+
     }
 
     public class Monster : TimedVisibility
@@ -101,7 +143,7 @@ namespace SmartHunter.Game.Data
         {
             get
             {
-                float size = 0; 
+                float size = 0;
 
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config))
@@ -141,7 +183,7 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public Progress Health { get; private set; }
+        public MonsterHealth Health { get; private set; }
         public ObservableCollection<MonsterPart> Parts { get; private set; }
         public ObservableCollection<MonsterStatusEffect> StatusEffects { get; private set; }
 
@@ -157,7 +199,7 @@ namespace SmartHunter.Game.Data
         {
             Address = address;
             m_Id = id;
-            Health = new Progress(maxHealth, currentHealth);
+            Health = new MonsterHealth(id, maxHealth, currentHealth);
             m_SizeScale = sizeScale;
             m_ScaleModifier = scaleModifier;
 
@@ -191,7 +233,7 @@ namespace SmartHunter.Game.Data
         public MonsterStatusEffect UpdateAndGetStatusEffect(ulong address, int index, float maxBuildup, float currentBuildup, float maxDuration, float currentDuration, int timesActivatedCount)
         {
             MonsterStatusEffect statusEffect = StatusEffects.SingleOrDefault(collectionStatusEffect => collectionStatusEffect.Index == index); // TODO: check address???
-            
+
             if (statusEffect != null)
             {
                 //statusEffect.Address = Address;
