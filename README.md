@@ -1,13 +1,17 @@
 # SmartHunter - Monster Hunter: World Overlay
 
-A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](https://www.nexusmods.com/monsterhunterworld/mods/793). Features include:
+A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](https://www.nexusmods.com/monsterhunterworld/mods/2556). Features include:
 
 - Monster widget - name, health, parts, status effect buildup, and crown.
 - Team widget - name and damage meters.
-- Player widget - buff, debuff, and equipment/mantle timers (NOT working for now).
+- Player widget - buff, debuff, and equipment/mantle timers.
 - Open source - freely learn from and contribute to the project.
 - Skinnable - create and distribute your own rich styles and animations with XAML.
 - Easy localization - create and distribute your own translations for our international friends.
+
+## Changelog
+
+- Look [here](https://forums.nexusmods.com/index.php?/topic/8356533-smarthunter-for-iceborne/)
 
 ## Requirements
 
@@ -16,7 +20,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## How to install
 
-- Download `SmartHunter.exe` and `Newtonsoft.Json.dll` from here https://github.com/gabrielefilipp/SmartHunter/tree/master/SmartHunter/bin/Debug.
+- Download `SmartHunter.exe` and `Newtonsoft.Json.dll` from [here](https://github.com/gabrielefilipp/SmartHunter/tree/master/SmartHunter/bin/Debug).
 - Place them in a new folder.
 - IMPORTANT: If you are replacing the new `.exe` in the same folder of the old SmartHunter please just follow the instructions `## How to update`.
 - You're ready for the hunt.
@@ -30,7 +34,7 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## How to update
 
-- Following the commit https://github.com/gabrielefilipp/SmartHunter/commit/305b8a55eb4cd40c31a06a30ab862b4f803baa84 I've added an AutoUpdater module to this Application.
+- Following this [commit](https://github.com/gabrielefilipp/SmartHunter/commit/305b8a55eb4cd40c31a06a30ab862b4f803baa84) I've added an AutoUpdater module to this Application.
 - To enable this feature just set the key 'AutomaticallyCheckAndDownloadUpdates' to 'true', if present, otherwise just add it, to the file `Config.json`.
 - NOTE that this feature is already active if it's the first time you follow the "How to install" steps and download the mentioned files in a new directory.
 - To force an update just delete the file `Versions.json` and restart the application.
@@ -51,10 +55,8 @@ A complete overlay for Monster Hunter: World on PC. Distributed on [Nexus Mods](
 
 ## Credits
 
-- [HelloWorld](https://www.nexusmods.com/monsterhunterworld/users/58674841) for inspiring me with [their overlay](https://www.nexusmods.com/monsterhunterworld/mods/142).
-- [Material1](https://www.nexusmods.com/monsterhunterworld/users/61777036) for their efforts in finding monster sizes.
-- [hqvrrsc4](https://www.nexusmods.com/monsterhunterworld/users/7950104) for finding player data in [their overlay](https://www.nexusmods.com/monsterhunterworld/mods/88).
-- [HelloWorld](https://www.nexusmods.com/monsterhunterworld/users/58674841), [amatess2002](https://www.nexusmods.com/users/59866791), [regretofabreath](https://www.nexusmods.com/monsterhunterworld/users/57977516), and [hawk333](https://www.nexusmods.com/monsterhunterworld/users/1939230) for their efforts in indexing monster parts.
+- [r00telement](https://www.nexusmods.com/monsterhunterworld/users/64406676) for he's original [project](https://github.com/r00telement/SmartHunter).
+- [Phil-Pa](https://github.com/Phil-Pa) for he's [idea](https://github.com/gabrielefilipp/SmartHunter/pull/57/commits/4e2394e98ca63626b2ddcb4503a0ba0b0ed70c72)
 
 ## Disclaimer
 

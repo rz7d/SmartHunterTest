@@ -20,7 +20,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1754.37f, 1f,
+                    1754.37f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -38,7 +38,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1754.37f, 1f,
+                    1754.37f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -56,7 +56,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1754.37f, 1f,
+                    1754.37f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -74,7 +74,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1704.22f, 1f,
+                    1704.22f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -92,7 +92,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1704.22f, 1f,
+                    1704.22f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -110,7 +110,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1704.22f, 1f,
+                    1704.22f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -119,6 +119,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_DIABLOS",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -128,7 +129,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2096.25f, 1.2f,
+                    2096.25f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -137,6 +138,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_BLACK_DIABLOS",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -146,7 +148,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2096.25f, 1.2f,
+                    2096.25f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -159,7 +161,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_ARMS"),
                         new MonsterPartConfig("Part", "LOC_PART_LEGS")
                     },
-                    536.26f, 1f,
+                    536.26f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -178,7 +180,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1389.01f, 1f,
+                    1389.01f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -196,7 +198,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1389.01f, 1f,
+                    1389.01f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -207,6 +209,7 @@ namespace SmartHunter.Game.Config
                     {
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        // TODO: One other removable part?
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
                         new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
@@ -215,8 +218,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    829.11f, 1.0f,
-                    new MonsterCrownConfig(CrownPreset.Alternate)
+                    829.11f,
+                    new MonsterCrownConfig(CrownPreset.Rajang)
                 )
             },
             { // true
@@ -232,7 +235,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LIMBS_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
-                    1913.13f, 0.85f,
+                    1913.13f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -250,7 +253,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1828.69f, 0.85f,
+                    1828.69f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -268,7 +271,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1790.15f, 0.85f,
+                    1790.15f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -287,7 +290,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1943.2f, 1f,
+                    1943.2f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -305,7 +308,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1943.2f, 1f,
+                    1943.2f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -321,7 +324,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1797.24f, 1.2f,
+                    1797.24f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -339,7 +342,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1914.74f, 1f,
+                    1914.74f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -357,7 +360,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2098.3f, 1f,
+                    2098.3f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -376,7 +379,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2063.82f, 1f,
+                    2063.82f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -395,8 +398,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2063.82f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Alternate)
+                    2063.82f,
+                    new MonsterCrownConfig(CrownPreset.Savage)
                 )
             },
             { // true
@@ -404,6 +407,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_BARROTH",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HEAD", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD_MUD"),
@@ -418,7 +422,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_MUD")
                     },
-                    1383.07f, 0.81f,
+                    1383.07f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -436,7 +440,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2058.63f, 1f,
+                    2058.63f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -445,6 +449,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_ZINOGRE",
                     new MonsterPartConfig[]
                     {
+                        //Head?
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -453,7 +458,25 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1743.49f, 1f,
+                    1743.49f,
+                    new MonsterCrownConfig(CrownPreset.Standard)
+                )
+            },
+            { // true
+                "em057_01",
+                new MonsterConfig("LOC_MONSTER_STYGIAN_ZINOGRE",
+                    new MonsterPartConfig[]
+                    {
+                        //Head?
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_BACK"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARMS"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEGS"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    1743.49f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -471,8 +494,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1630.55f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Alternate)
+                    1630.55f,
+                    new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
             { // true
@@ -489,7 +512,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2461.5f, 1f,
+                    2461.5f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -507,7 +530,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2372.44f, 1f,
+                    2372.44f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -523,7 +546,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1646.46f, 1f,
+                    1646.46f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -539,7 +562,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1646.46f, 1f,
+                    1646.46f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -555,7 +578,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL"),
                         new MonsterPartConfig("Part", "LOC_PART_ABDOMEN")
                     },
-                    1109.66f, 1f,
+                    1109.66f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -573,7 +596,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1102.45f, 1f,
+                    1102.45f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -591,7 +614,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1102.45f, 1f,
+                    1102.45f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -600,6 +623,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_NERGIGANTE",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HORNS"),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
@@ -612,7 +636,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1848.12f, 1f,
+                    1848.12f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -622,6 +646,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_RUINER_NERGIGANTE",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HORNS"),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
@@ -634,7 +659,79 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1848.12f, 1f,
+                    1848.12f,
+                    new MonsterCrownConfig(CrownPreset.Standard),
+                    true
+                )
+            },
+            { // true
+                "em104_00",
+                new MonsterConfig("LOC_MONSTER_SAFI_JIIVA",
+                    new MonsterPartConfig[]
+                    {
+                        /*
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_1", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_2", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_3", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_4", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_5", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_6", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_7", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_8", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_9", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_10", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_11", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_12", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_13", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_14", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_15", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_16", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_17", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_18", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_19", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_20", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_21", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_22", true),
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_23", true),
+                        new MonsterPartConfig("Part", "LOC_PART_1"),
+                        new MonsterPartConfig("Part", "LOC_PART_2"),
+                        new MonsterPartConfig("Part", "LOC_PART_3"),
+                        new MonsterPartConfig("Part", "LOC_PART_4"),
+                        new MonsterPartConfig("Part", "LOC_PART_5"),
+                        new MonsterPartConfig("Part", "LOC_PART_6"),
+                        new MonsterPartConfig("Part", "LOC_PART_7"),
+                        new MonsterPartConfig("Part", "LOC_PART_8"),
+                        new MonsterPartConfig("Part", "LOC_PART_9"),
+                        new MonsterPartConfig("Part", "LOC_PART_10"),
+                        new MonsterPartConfig("Part", "LOC_PART_11"),
+                        new MonsterPartConfig("Part", "LOC_PART_12"),
+                        new MonsterPartConfig("Part", "LOC_PART_13"),
+                        new MonsterPartConfig("Part", "LOC_PART_14"),
+                        new MonsterPartConfig("Part", "LOC_PART_15"),
+                        new MonsterPartConfig("Part", "LOC_PART_16"),
+                        new MonsterPartConfig("Part", "LOC_PART_17"),
+                        new MonsterPartConfig("Part", "LOC_PART_18"),
+                        new MonsterPartConfig("Part", "LOC_PART_19"),
+                        new MonsterPartConfig("Part", "LOC_PART_20"),
+                        new MonsterPartConfig("Part", "LOC_PART_21"),
+                        new MonsterPartConfig("Part", "LOC_PART_22"),
+                        new MonsterPartConfig("Part", "LOC_PART_23")
+                        */
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
+                        new MonsterPartConfig("Part", "LOC_PART_HEAD"),
+                        new MonsterPartConfig("Part", "LOC_PART_BODY"),
+                        new MonsterPartConfig("Part", "LOC_PART_ABDOMEN"),
+                        new MonsterPartConfig("Part", "LOC_PART_NECK"), // to check
+                        new MonsterPartConfig("Part", "LOC_PART_BACK"), // to check
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_LEFT"),
+                        new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
+                        new MonsterPartConfig("Part", "LOC_PART_TAIL")
+                    },
+                    4799.78f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -656,7 +753,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WINGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    4509.1f, 1f,
+                    4509.1f,
                     null,
                     true
                 )
@@ -682,7 +779,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WEAK_SHELL_LEFT"),
                         new MonsterPartConfig("Part", "LOC_PART_WEAK_SHELL_RIGHT")
                     },
-                    25764.59f, 1f,
+                    25764.59f,
                     null,
                     true
                 )
@@ -698,7 +795,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL"),
                         new MonsterPartConfig("Part", "LOC_PART_ROCK")
                     },
-                    901.24f, 0.9f,
+                    901.24f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -718,7 +815,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT_MUD"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_MUD")
                     },
-                    1508.71f, 1f,
+                    1508.71f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -734,7 +831,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1300.52f, 1f,
+                    1300.52f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -750,7 +847,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1300.52f, 1f,
+                    1300.52f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -759,6 +856,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_PAOLUMU",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_BALOON", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BALLOON"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -768,7 +866,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1143.36f, 1.06f,
+                    1143.36f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -777,6 +875,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_PAOLUMU_NIGHTSHADE",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_BALOON", true),
                         new MonsterPartConfig("Part", "LOC_PART_HEAD"),
                         new MonsterPartConfig("Part", "LOC_PART_BALLOON"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -786,7 +885,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1143.36f, 1f,
+                    1143.36f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -803,7 +902,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1699.75f, 0.9f,
+                    1699.75f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -820,7 +919,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1831.69f, 0.9f,
+                    1831.69f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -836,7 +935,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1053.15f, 0.9f,
+                    1053.15f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -852,7 +951,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1388.75f, 1.15f,
+                    1388.75f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -868,7 +967,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1388.75f, 1f,
+                    1388.75f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -888,7 +987,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_BONE_LEFT"),
                         new MonsterPartConfig("Part", "LOC_PART_BONE_RIGHT")
                     },
-                    1803.47f, 0.9f,
+                    1803.47f,
                     new MonsterCrownConfig(CrownPreset.Alternate)
                 )
             },
@@ -908,7 +1007,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
-                    2095.4f, 0.9f,
+                    2095.4f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -929,7 +1028,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
-                    2095.4f, 0.9f,
+                    2095.4f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -946,7 +1045,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1111.11f, 1f,
+                    1111.11f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -974,7 +1073,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_LEFT_GOLD"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_RIGHT_GOLD")
                     },
-                    4573.25f, 1f,
+                    4573.25f,
                     null,
                     true
                 )
@@ -992,7 +1091,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1928.38f, 1.1f,
+                    1928.38f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -1009,7 +1108,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_WING_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    1928.38f, 1.1f,
+                    1928.38f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -1024,7 +1123,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    894.04f, 0.9f,
+                    894.04f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -1043,7 +1142,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    3423.65f, 1f,
+                    3423.65f,
                     null,
                     true
                 )
@@ -1061,7 +1160,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_SNOW")
                     },
-                    1661.99f, 1f,
+                    1661.99f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -1070,6 +1169,7 @@ namespace SmartHunter.Game.Config
                 new MonsterConfig("LOC_MONSTER_BANBARO",
                     new MonsterPartConfig[]
                     {
+                        new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_HORNS", true),
                         new MonsterPartConfig("Removable", "LOC_REMOVABLE_PART_TAIL", true),
                         new MonsterPartConfig("Part", "LOC_PART_HORNS"),
                         new MonsterPartConfig("Part", "LOC_PART_BODY"),
@@ -1077,7 +1177,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEG_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2404.84f, 1f,
+                    2404.84f,
                     new MonsterCrownConfig(CrownPreset.Standard)
                 )
             },
@@ -1100,7 +1200,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_TAIL"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL_ICE")
                     },
-                    2596.05f, 0.85f,
+                    2596.05f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -1118,7 +1218,7 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_LEGS"),
                         new MonsterPartConfig("Part", "LOC_PART_WINGS")
                     },
-                    2048.25f, 1f,
+                    2048.25f,
                     new MonsterCrownConfig(CrownPreset.Standard),
                     true
                 )
@@ -1146,8 +1246,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_PART_ARM_RIGHT"),
                         new MonsterPartConfig("Part", "LOC_PART_TAIL")
                     },
-                    2910.91f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Alternate),
+                    2910.91f,
+                    null,
                     true
                 )
             },
@@ -1166,8 +1266,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_5"),
                         new MonsterPartConfig("Part", "LOC_JAGRAS_SUMMONER")
                     },
-                    549.70f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard),
+                    549.70f,
+                    null,
                     true
                 )
             },
@@ -1186,8 +1286,8 @@ namespace SmartHunter.Game.Config
                         new MonsterPartConfig("Part", "LOC_5"),
                         new MonsterPartConfig("Part", "LOC_JAGRAS_SUMMONER")
                     },
-                    633.81f, 1f,
-                    new MonsterCrownConfig(CrownPreset.Standard),
+                    633.81f,
+                    null,
                     true
                 )
             }
@@ -1251,6 +1351,8 @@ namespace SmartHunter.Game.Config
             new MonsterStatusEffectConfig("StatusEffect", "LOC_PART_32"),
 
             new MonsterStatusEffectConfig("Rage", "LOC_STATUS_EFFECT_RAGE"),
+            new MonsterStatusEffectConfig("Stamina", "LOC_STATUS_EFFECT_STAMINA"),
+            new MonsterStatusEffectConfig("Fatigue", "LOC_STATUS_EFFECT_FATIGUE"),
         };
     }
 }

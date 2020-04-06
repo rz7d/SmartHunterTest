@@ -1,5 +1,5 @@
-using SmartHunter.Core.Config;
 using System.Collections.Generic;
+using SmartHunter.Core.Config;
 
 namespace SmartHunter.Config
 {
@@ -12,6 +12,7 @@ namespace SmartHunter.Config
             { "LOC_WIDGET_MONSTER", "Monster Widget" },
             { "LOC_WIDGET_TEAM", "Team Widget" },
             { "LOC_WIDGET_PLAYER", "Player Widget" },
+            { "LOC_WIDGET_DEBUG", "Debug Widget" },
 
             // Iceborne monsters
 
@@ -43,6 +44,8 @@ namespace SmartHunter.Config
 			{ "LOC_MONSTER_GOLD_RATHIAN", "Gold Rathian" },
 			{ "LOC_MONSTER_SILVER_RATHALOS", "Silver Rathalos" },
             { "LOC_MONSTER_RAJANG", "Rajang" },
+            { "LOC_MONSTER_STYGIAN_ZINOGRE", "Stygian Zinogre" },
+            { "LOC_MONSTER_SAFI_JIIVA", "Safi'Jiiva" },
 
             //{ "LOC_MONSTER_UKNOWN", "Unknown Monster" },
             { "LOC_MONSTER_UKNOWN", "Kono Dio da!" },
@@ -158,6 +161,7 @@ namespace SmartHunter.Config
             { "LOC_REMOVABLE_PART_TAIL", "Removable Tail" },
             { "LOC_REMOVABLE_PART_HORNS", "Removable Horns" },
             { "LOC_REMOVABLE_PART_HORNS_2", "Removable Horn Chip" },
+            { "LOC_REMOVABLE_PART_BALOON", "Removable Baloon" },
 
             //To test monster parts
             { "LOC_PART_0", "0" },
@@ -193,6 +197,40 @@ namespace SmartHunter.Config
             { "LOC_PART_30", "30" },
             { "LOC_PART_31", "31" },
             { "LOC_PART_32", "32" },
+
+            { "LOC_REMOVABLE_PART_0", "Removable 0" },
+            { "LOC_REMOVABLE_PART_1", "Removable 1" },
+            { "LOC_REMOVABLE_PART_2", "Removable 2" },
+            { "LOC_REMOVABLE_PART_3", "Removable 3" },
+            { "LOC_REMOVABLE_PART_4", "Removable 4" },
+            { "LOC_REMOVABLE_PART_5", "Removable 5" },
+            { "LOC_REMOVABLE_PART_6", "Removable 6" },
+            { "LOC_REMOVABLE_PART_7", "Removable 7" },
+            { "LOC_REMOVABLE_PART_8", "Removable 8" },
+            { "LOC_REMOVABLE_PART_9", "Removable 9" },
+            { "LOC_REMOVABLE_PART_10", "Removable 10" },
+            { "LOC_REMOVABLE_PART_11", "Removable 11" },
+            { "LOC_REMOVABLE_PART_12", "Removable 12" },
+            { "LOC_REMOVABLE_PART_13", "Removable 13" },
+            { "LOC_REMOVABLE_PART_14", "Removable 14" },
+            { "LOC_REMOVABLE_PART_15", "Removable 15" },
+            { "LOC_REMOVABLE_PART_16", "Removable 16" },
+            { "LOC_REMOVABLE_PART_17", "Removable 17" },
+            { "LOC_REMOVABLE_PART_18", "Removable 18" },
+            { "LOC_REMOVABLE_PART_19", "Removable 19" },
+            { "LOC_REMOVABLE_PART_20", "Removable 20" },
+            { "LOC_REMOVABLE_PART_21", "Removable 21" },
+            { "LOC_REMOVABLE_PART_22", "Removable 22" },
+            { "LOC_REMOVABLE_PART_23", "Removable 23" },
+            { "LOC_REMOVABLE_PART_24", "Removable 24" },
+            { "LOC_REMOVABLE_PART_25", "Removable 25" },
+            { "LOC_REMOVABLE_PART_26", "Removable 26" },
+            { "LOC_REMOVABLE_PART_27", "Removable 27" },
+            { "LOC_REMOVABLE_PART_28", "Removable 28" },
+            { "LOC_REMOVABLE_PART_29", "Removable 29" },
+            { "LOC_REMOVABLE_PART_30", "Removable 30" },
+            { "LOC_REMOVABLE_PART_31", "Removable 31" },
+            { "LOC_REMOVABLE_PART_32", "Removable 32" },
 
             //removables
             { "LOC_REMOVABLE_PART_HEAD", "Removable Head" },
@@ -321,13 +359,39 @@ namespace SmartHunter.Config
             { "LOC_EQUIPMENT_AFFINITY_BOOSTER", "Affinity Booster" },
             { "LOC_EQUIPMENT_CLEANSER_BOOSTER", "Cleanser Booster" },
             { "LOC_EQUIPMENT_HEALTH_BOOSTER", "Health Booster" },
+            { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
+
+            // Equipment recharg time
+
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_GHILLIE", "Recharge Ghillie Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_TEMPORAL", "Recharge Temporal Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_ROCKSTEADY", "Recharge Rocksteady Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_CHALLENGER", "Recharge Challenger Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_VITALITY", "Recharge Vitality Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_FIREPROOF", "Recharge Fireproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_WATERPROOF", "Recharge Waterproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_ICEPROOF", "Recharge Iceproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_THUNDERPROOF", "Recharge Thunderproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_DRAGONPROOF", "Recharge Dragonproof Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_GLIDER", "Recharge Glider Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_EVASION", "Recharge Evasion Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_IMPACT", "Recharge Impact Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_APOTHECARY", "Recharge Apothecary Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_IMMUNITY", "Recharge Immunity Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_MANTLE_BANDIT", "Recharge Bandit Mantle" },
+            { "LOC_EQUIPMENT_RECHARGE_AFFINITY_BOOSTER", "Recharge Affinity Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_CLEANSER_BOOSTER", "Recharge Cleanser Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_HEALTH_BOOSTER", "Recharge Health Booster" },
+            { "LOC_EQUIPMENT_RECHARGE_ASSASSINS_HOOD", "Recharge Assassin's Hood" },
 
             // Weapon
             { "LOC_WEAPON_INSECT_GLAIVE_ATTACK", "Attack Up" },
             { "LOC_WEAPON_INSECT_GLAIVE_SPEED", "Speed Up" },
             { "LOC_WEAPON_INSECT_GLAIVE_DEFENSE", "Defense Up" },
-            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", "Spirit Gauge Regen" },
             { "LOC_WEAPON_LONGSWORD_STEADY_SPIRIT_LEVEL", "Steady Spirit Level" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN", "Spirit Gauge Regen" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN_HELM_BREAKER", "Spirit Gauge Regen (Helm Breaker)" },
+            { "LOC_WEAPON_LONGSWORD_SPIRIT_GAUGE_REGEN_LAI_SLASH", "Spirit Gauge Regen (Lai Slash)" },
             { "LOC_WEAPON_CHARGE_BLADE_SHIELD_CHARGE", "Shield Charge" },
             { "LOC_WEAPON_CHARGE_BLADE_BLADE_CHARGE", "Blade Charge" },
             { "LOC_WEAPON_SWITCH_AXE_AMPED_STATE", "Amped State" },
@@ -345,7 +409,6 @@ namespace SmartHunter.Config
             { "LOC_STATUS_EFFECT_PITFALL_TRAP", "Pitfall Trap" },
             { "LOC_STATUS_EFFECT_ELDERSEAL", "Elderseal" },
 
-            { "LOC_EQUIPMENT_ASSASSINS_HOOD", "Assassin's Hood" },
             { "LOC_MONSTER_LESHEN", "Leshen" },
             { "LOC_MONSTER_ANCIENT_LESHEN", "Ancient Leshen" },
             { "LOC_REMOVABLE_PART_ANTLER_LEFT", "Removable Left Antler" },

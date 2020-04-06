@@ -1,7 +1,8 @@
-﻿using SmartHunter.Core.Helpers;
-using SmartHunter.Core.Windows;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using SmartHunter.Core.Helpers;
+using SmartHunter.Core.Windows;
 
 namespace SmartHunter.Core
 {
@@ -29,9 +30,20 @@ namespace SmartHunter.Core
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateWidgetsFromConfig();
+            /*
+            foreach (var widgetWindow in WidgetWindows)
+            {
+                if (!widgetWindow.IsVisible)
+                {
+                    widgetWindow.Owner = m_MainWindow;
+                    widgetWindow.Opacity = 0.0f;
+                    widgetWindow.Hide();
+                }
+            }
+            */
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             foreach (var widgetWindow in WidgetWindows)
             {
@@ -41,6 +53,22 @@ namespace SmartHunter.Core
 
         private void ToggleWidgetWindow(WidgetWindow widgetWindow)
         {
+            /*
+            widgetWindow.Owner = m_MainWindow;
+            if (widgetWindow.Visibility != Visibility.Visible)
+            {
+                widgetWindow.Opacity = 1.0f;
+                widgetWindow.Show();
+
+                WindowHelper.SetTopMostTransparent(widgetWindow);
+            }
+            else
+            {
+                widgetWindow.Opacity = 0.0f;
+                widgetWindow.Hide();
+            }
+            */
+            
             if (widgetWindow.Visibility != Visibility.Visible)
             {
                 widgetWindow.Owner = m_MainWindow;

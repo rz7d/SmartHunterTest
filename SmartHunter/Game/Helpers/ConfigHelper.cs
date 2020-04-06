@@ -1,3 +1,4 @@
+using System;
 using SmartHunter.Config;
 using SmartHunter.Core.Config;
 using SmartHunter.Game.Config;
@@ -90,7 +91,7 @@ namespace SmartHunter.Game.Helpers
             var memory = Memory;
         }
 
-        static void Main_Loaded(object sender, System.EventArgs e)
+        static void Main_Loaded(object sender, EventArgs e)
         {
             Localization.TryChangeFileName(Main.Values.LocalizationFileName);
             MonsterData.TryChangeFileName(Main.Values.MonsterDataFileName);

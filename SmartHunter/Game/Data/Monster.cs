@@ -1,10 +1,10 @@
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using SmartHunter.Core;
 using SmartHunter.Core.Data;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Helpers;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace SmartHunter.Game.Data
 {
@@ -73,19 +73,27 @@ namespace SmartHunter.Game.Data
             }
         }
 
+        float m_ScaleModifier;
+
+        public float ScaleModifier
+        {
+            get { return m_ScaleModifier; }
+            set
+            {
+                if (SetProperty(ref m_ScaleModifier, value))
+                {
+                    NotifyPropertyChanged(nameof(ModifiedSizeScale));
+                    NotifyPropertyChanged(nameof(Size));
+                    NotifyPropertyChanged(nameof(Crown));
+                }
+            }
+        }
+
         public float ModifiedSizeScale
         {
             get
             {
-                float modifiedSizeScale = SizeScale;
-
-                MonsterConfig config = null;
-                if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config))
-                {
-                    modifiedSizeScale /= config.ScaleModifier;
-                }
-
-                return modifiedSizeScale;
+                return SizeScale / ScaleModifier;
             }
         }
 
@@ -114,7 +122,7 @@ namespace SmartHunter.Game.Data
                 MonsterConfig config = null;
                 if (ConfigHelper.MonsterData.Values.Monsters.TryGetValue(Id, out config) && config.Crowns != null)
                 {
-                    float modifiedSizeScale = ModifiedSizeScale;
+                    float modifiedSizeScale = float.Parse(ModifiedSizeScale.ToString("0.00"));
 
                     if (modifiedSizeScale <= config.Crowns.Mini)
                     {
@@ -145,12 +153,13 @@ namespace SmartHunter.Game.Data
             }
         }
 
-        public Monster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale)
+        public Monster(ulong address, string id, float maxHealth, float currentHealth, float sizeScale, float scaleModifier)
         {
             Address = address;
             m_Id = id;
             Health = new Progress(maxHealth, currentHealth);
             m_SizeScale = sizeScale;
+            m_ScaleModifier = scaleModifier;
 
             Parts = new ObservableCollection<MonsterPart>();
             StatusEffects = new ObservableCollection<MonsterStatusEffect>();

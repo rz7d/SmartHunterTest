@@ -1,13 +1,15 @@
-using SmartHunter.Core.Helpers;
-using SmartHunter.Game.Data;
-using SmartHunter.Game.Data.ViewModels;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SmartHunter.Core.Helpers;
+using SmartHunter.Game.Config;
+using SmartHunter.Game.Data;
+using SmartHunter.Game.Data.ViewModels;
 
 namespace SmartHunter.Game.Helpers
 {
@@ -15,6 +17,12 @@ namespace SmartHunter.Game.Helpers
     {
         public static bool TryParseHex(string hexString, out long hexNumber)
         {
+            if (hexString.StartsWith("-"))
+            {
+                bool res = long.TryParse(hexString.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexNumber);
+                hexNumber = (-1) * hexNumber;
+                return res;
+            }
             return long.TryParse(hexString, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out hexNumber);
         }
 
@@ -33,9 +41,10 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong NextMonsterOffset = 0x18;
                 public static readonly ulong MonsterHealthComponentOffset = 0x7670;
                 public static readonly ulong PreviousMonsterOffset = 0x10;
-                public static readonly ulong SizeScale = 0x180;
+                public static readonly ulong SizeScale = 0x188;
+                public static readonly ulong ScaleModifier = 0x7730;
                 public static readonly ulong PartCollection = 0x14528;
-                public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0;//0x1ED0;
+                public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0 - 0xF0 - 0xF0;
                 public static readonly ulong StatusEffectCollection = 0x19900;
             }
 
@@ -75,10 +84,7 @@ namespace SmartHunter.Game.Helpers
             {
                 public static readonly ulong MaxHealth = 0x0C;
                 public static readonly ulong CurrentHealth = 0x10;
-                public static readonly ulong Validity1 = 0x14;
                 public static readonly ulong TimesBrokenCount = 0x18;
-                public static readonly ulong Validity2 = 0x28;
-                public static readonly ulong Validity3 = 0x40;
                 public static readonly ulong NextRemovablePart = 0x78;
             }
 
@@ -99,8 +105,14 @@ namespace SmartHunter.Game.Helpers
 
             public static class PlayerNameCollection
             {
+                public static readonly int IDLength = 12 + 1; // +1 for null terminator
                 public static readonly int PlayerNameLength = 32 + 1; // +1 for null terminator
-                public static readonly ulong FirstPlayerName = 0x532ED;//0x526AD;
+                public static readonly ulong FirstPlayerName = 0x532ED;
+                public static readonly ulong SessionID = FirstPlayerName + 0xF43;
+                public static readonly ulong SessionHostPlayerName = SessionID + 0x3F;
+                public static readonly ulong LobbyID = FirstPlayerName + 0x463;
+                public static readonly ulong LobbyHostPlayerName = LobbyID + 0x29;
+                public static readonly ulong NextLobbyHostName = 0x2F; // Is dis even right?
             }
 
             public static class PlayerDamageCollection
@@ -113,7 +125,58 @@ namespace SmartHunter.Game.Helpers
             public static class PlayerDamage
             {
                 public static readonly ulong Damage = 0x48;
+                public static readonly int MaxOnScreenDamages = 14;
             }
+        }
+
+        private static int lastNetworkOperationTime = 0;
+        private static bool networkOperationDone = true;
+        private static int lastNetworkOperationTimeD = 0;
+        private static bool networkOperationDoneD = true;
+        private static int[,] expeditionDamageChecker = new int[DataOffsets.PlayerDamage.MaxOnScreenDamages, 2];
+
+        public static void UpdateCurrentGame(Process process, ulong playerNameCollectionAddress, ulong currentPlayerNameAddress, ulong currentWeaponAddress, ulong lobbyStatusAddress)
+        {
+            string currentSessionID = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.SessionID, (uint)DataOffsets.PlayerNameCollection.IDLength);
+            string currentSessionPlayerName = "";
+            if (currentSessionID.Length > 0)
+            {
+                currentSessionPlayerName = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.SessionHostPlayerName, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+            }
+
+            string currentPlayerName = MemoryHelper.ReadString(process, currentPlayerNameAddress, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+
+            string currentLobbyID = "";
+            string currentLobbyPlayerName = "";
+            bool isPlayerInMission = MemoryHelper.Read<uint>(process, lobbyStatusAddress + 0x54) != 0x0;
+            bool isPlayerInExpedition = MemoryHelper.Read<uint>(process, lobbyStatusAddress + 0x38) != 0x1;
+            if (isPlayerInMission || isPlayerInExpedition)
+            {
+                if (currentSessionID.Length > 0)
+                {
+                    currentLobbyID = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.LobbyID, (uint)DataOffsets.PlayerNameCollection.IDLength);
+                    if (currentLobbyID.Length > 0)
+                    {
+                        for (int index = 0; index < 4; index++)
+                        {
+                            ulong PlayerNameOffset = DataOffsets.PlayerNameCollection.NextLobbyHostName * (ulong)index;
+                            currentLobbyPlayerName = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.LobbyHostPlayerName + PlayerNameOffset, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
+                            if (currentLobbyPlayerName.Length > 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    currentLobbyID = "Not Online";
+                    currentLobbyPlayerName = currentPlayerName;
+                }
+            }
+
+            string currentEquippedWeaponString = MemoryHelper.ReadString(process, currentWeaponAddress, 0x4F);
+            OverlayViewModel.Instance.DebugWidget.Context.UpdateCurrentGame(currentPlayerName, currentEquippedWeaponString, currentSessionID, currentSessionPlayerName, currentLobbyID, currentLobbyPlayerName, !isPlayerInMission && isPlayerInExpedition);
         }
 
         public static void UpdatePlayerWidget(Process process, ulong baseAddress, ulong equipmentAddress, ulong weaponAddress)
@@ -123,11 +186,11 @@ namespace SmartHunter.Game.Helpers
                 var statusEffectConfig = ConfigHelper.PlayerData.Values.StatusEffects[index];
 
                 ulong sourceAddress = baseAddress;
-                if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Equipment)
+                if (statusEffectConfig.Source == (uint)StatusEffectConfig.MemorySource.Equipment)
                 {
-                    sourceAddress = equipmentAddress + 0xEFC; // 0xEFC is a base offset for the mantles
+                    sourceAddress = equipmentAddress;
                 }
-                else if (statusEffectConfig.Source == Config.StatusEffectConfig.MemorySource.Weapon)
+                else if (statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Base)
                 {
                     sourceAddress = weaponAddress;
                 }
@@ -184,7 +247,17 @@ namespace SmartHunter.Game.Helpers
                         }
                     }
                 }
-
+                if (statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Base && statusEffectConfig.Source != (uint)StatusEffectConfig.MemorySource.Equipment)
+                {
+                    if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid)
+                    {
+                        continue;
+                    }
+                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentEquippedWeaponType() != (WeaponType)statusEffectConfig.Source)
+                    {
+                        allConditionsPassed = false;
+                    }
+                }
                 float? timer = null;
                 if (allConditionsPassed && statusEffectConfig.TimerOffset != null)
                 {
@@ -207,6 +280,7 @@ namespace SmartHunter.Game.Helpers
         public static void UpdateTeamWidget(Process process, ulong playerDamageCollectionAddress, ulong playerNameCollectionAddress)
         {
             List<Player> updatedPlayers = new List<Player>();
+
             for (int playerIndex = 0; playerIndex < DataOffsets.PlayerDamageCollection.MaxPlayerCount; ++playerIndex)
             {
                 var player = UpdateAndGetTeamPlayer(process, playerIndex, playerDamageCollectionAddress, playerNameCollectionAddress);
@@ -222,7 +296,7 @@ namespace SmartHunter.Game.Helpers
             }
             else if (OverlayViewModel.Instance.TeamWidget.Context.Players.Any())
             {
-                OverlayViewModel.Instance.TeamWidget.Context.Players.Clear();
+                OverlayViewModel.Instance.TeamWidget.Context.ClearPlayers();
             }
         }
 
@@ -232,7 +306,7 @@ namespace SmartHunter.Game.Helpers
 
             var playerNameOffset = (ulong)DataOffsets.PlayerNameCollection.PlayerNameLength * (ulong)playerIndex;
             string name = MemoryHelper.ReadString(process, playerNameCollectionAddress + DataOffsets.PlayerNameCollection.FirstPlayerName + playerNameOffset, (uint)DataOffsets.PlayerNameCollection.PlayerNameLength);
-            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr; // check those lines
+            ulong firstPlayerPtr = playerDamageCollectionAddress + DataOffsets.PlayerDamageCollection.FirstPlayerPtr;
             ulong currentPlayerPtr = firstPlayerPtr + ((ulong)playerIndex * DataOffsets.PlayerDamageCollection.NextPlayerPtr);
             ulong currentPlayerAddress = MemoryHelper.Read<ulong>(process, currentPlayerPtr);
             int damage = MemoryHelper.Read<int>(process, currentPlayerAddress + DataOffsets.PlayerDamage.Damage);
@@ -245,47 +319,301 @@ namespace SmartHunter.Game.Helpers
             return player;
         }
 
-        public static void UpdateMonsterWidget(Process process, ulong monsterBaseList)
+        public static void UpdateDamageOnScreen(Process process, ulong damageOnScreenPtr)
         {
-            if (monsterBaseList < 0xffffff)
+            var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName));
+            if (p.Any())
             {
-                OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
-                return;
-            }
-
-            List<ulong> monsterAddresses = new List<ulong>();
-
-            ulong firstMonster = MemoryHelper.Read<ulong>(process, monsterBaseList + DataOffsets.Monster.PreviousMonsterOffset);
-
-            if (firstMonster == 0x0)
-            {
-                firstMonster = monsterBaseList;// + DataOffsets.Monster.MonsterStartOfStructOffset;
-            }
-
-            firstMonster += DataOffsets.Monster.MonsterStartOfStructOffset;
-
-            ulong currentMonsterAddress = firstMonster;
-            while (currentMonsterAddress != 0)
-            {
-                monsterAddresses.Insert(0, currentMonsterAddress);
-                currentMonsterAddress = MemoryHelper.Read<ulong>(process, currentMonsterAddress + DataOffsets.Monster.NextMonsterOffset);
-            }
-
-            List<Monster> updatedMonsters = new List<Monster>();
-            foreach (var monsterAddress in monsterAddresses)
-            {
-                var monster = UpdateAndGetMonster(process, monsterAddress);
-                if (monster != null)
+                var currentPlayer = p.First();
+                ulong startOfList = damageOnScreenPtr + 0x2900;
+                ulong currentItem = startOfList;
+                for (int i = 0; i < DataOffsets.PlayerDamage.MaxOnScreenDamages; i++)
                 {
-                    updatedMonsters.Add(monster);
+                    int id1 = MemoryHelper.Read<int>(process, currentItem + 0x20);
+                    int id2 = MemoryHelper.Read<int>(process, currentItem + 0x24);
+
+                    if (expeditionDamageChecker[i, 0] != id1 && expeditionDamageChecker[i, 1] != id2)
+                    {
+                        expeditionDamageChecker[i, 0] = id1;
+                        expeditionDamageChecker[i, 1] = id2;
+
+                        int value = MemoryHelper.Read<int>(process, currentItem + 0x34);
+
+                        currentPlayer.Damage += value;
+                    }
+                    currentItem += 0x90;
+                }
+                if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerAlone() && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && networkOperationDoneD && DateTime.Now.Second != lastNetworkOperationTimeD)
+                {
+                    networkOperationDoneD = false;
+                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.DAMAGE, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost(), currentPlayer.Damage, null, (result, ping) =>
+                    {
+                        if (result != null && result["status"].ToString().Equals("error"))
+                        {
+                            if (result["result"].ToString().Equals("0"))
+                            {
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone = false;
+                            }
+                            else if (result["result"].ToString().Equals("false"))
+                            {
+                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone = false;
+                            }else if (result["result"].ToString().Equals("v"))
+                            {
+                                ServerManager.Instance.IsServerOline = -1;
+                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                            }
+                            else if (result["result"].ToString().Equals("dev"))
+                            {
+                                ServerManager.Instance.IsServerOline = -1;
+                                Core.Log.WriteLine("The server is under maintenance!");
+                            }
+                        }
+                        else if (result != null && result["status"].ToString().Equals("ok"))
+                        {
+                            if (!result["result"].ToString().Equals(""))
+                            {
+                                var damageData = JsonConvert.DeserializeObject<Dictionary<string, int>>(result["result"].ToString());
+                                foreach (var id in damageData.Keys)
+                                {
+                                    if (!id.Equals(OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.CurrentPlayerName))
+                                    {
+                                        var p = OverlayViewModel.Instance.TeamWidget.Context.Players.Where(p => p.Name.Equals(id));
+                                        if (p.Any())
+                                        {
+                                            p.First().Damage = damageData[id];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        networkOperationDoneD = true;
+                        lastNetworkOperationTimeD = DateTime.Now.Second;
+                    }, (error) =>
+                    {
+                        networkOperationDoneD = true;
+                        lastNetworkOperationTimeD = DateTime.Now.Second;
+                    });
+                }
+            }
+        }
+
+        public static void UpdateMonsterWidget(Process process, ulong monsterBaseList, ulong mapBaseAddress)
+        {
+            bool flg = false;
+            if (mapBaseAddress != 0x0)
+            {
+                bool isMonsterSelected = MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x128) != 0x0 && MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x130) != 0x0 && MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x160) != 0x0;
+                if (isMonsterSelected)
+                {
+                    ulong selectedMonsterAddress = MemoryHelper.Read<ulong>(process, mapBaseAddress + 0x148) - 0X40;
+                    var selectedMonster = UpdateAndGetMonster(process, selectedMonsterAddress);
+                    if (selectedMonster != null)
+                    {
+                        flg = true;
+                        var toRemoveMonsters = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => !m.Id.Equals(selectedMonster.Id));
+                        foreach (var obsoleteMonster in toRemoveMonsters.Reverse())
+                        {
+                            OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
+                        }
+                    }
                 }
             }
 
-            // Clean out monsters that aren't in the linked list anymore
-            var obsoleteMonsters = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Except(updatedMonsters);
-            foreach (var obsoleteMonster in obsoleteMonsters.Reverse())
+            if (!flg)
             {
-                OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
+                if (monsterBaseList < 0xffffff)
+                {
+                    OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Clear();
+                    return;
+                }
+
+                List<ulong> monsterAddresses = new List<ulong>();
+
+                ulong firstMonster = MemoryHelper.Read<ulong>(process, monsterBaseList + DataOffsets.Monster.PreviousMonsterOffset);
+
+                if (firstMonster == 0x0)
+                {
+                    firstMonster = monsterBaseList;
+                }
+
+                firstMonster += DataOffsets.Monster.MonsterStartOfStructOffset;
+
+                ulong currentMonsterAddress = firstMonster;
+                while (currentMonsterAddress != 0)
+                {
+                    monsterAddresses.Insert(0, currentMonsterAddress);
+                    currentMonsterAddress = MemoryHelper.Read<ulong>(process, currentMonsterAddress + DataOffsets.Monster.NextMonsterOffset);
+                }
+
+                List<Monster> updatedMonsters = new List<Monster>();
+                foreach (var monsterAddress in monsterAddresses)
+                {
+                    var monster = UpdateAndGetMonster(process, monsterAddress);
+                    if (monster != null)
+                    {
+                        updatedMonsters.Add(monster);
+                    }
+                }
+                // Clean out monsters that aren't in the linked list anymore
+                var obsoleteMonsters = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Except(updatedMonsters);
+                foreach (var obsoleteMonster in obsoleteMonsters.Reverse())
+                {
+                    OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Remove(obsoleteMonster);
+                }
+            }
+
+            if (ConfigHelper.Main.Values.Overlay.MonsterWidget.UseNetworkServer && ServerManager.Instance.IsServerOline == 1 && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline())
+            {
+                if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost())
+                {
+                    if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerAlone())
+                    {
+                        if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone)
+                        {
+                            if (networkOperationDone && DateTime.Now.Second != lastNetworkOperationTime)
+                            {
+                                Dictionary<string, Dictionary<string, Dictionary<string, int[]>>> data = new Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>();
+                                foreach (var monster in OverlayViewModel.Instance.MonsterWidget.Context.Monsters)
+                                {
+                                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline() && !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerAlone())
+                                    {
+                                        if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && networkOperationDone && DateTime.Now.Second != lastNetworkOperationTime)
+                                        {
+                                            Dictionary<string, Dictionary<string, int[]>> monsterData = new Dictionary<string, Dictionary<string, int[]>>();
+                                            Dictionary<string, int[]> monsterPartsData = new Dictionary<string, int[]>();
+                                            foreach (var part in monster.Parts)
+                                            {
+                                                int[] partValues = new int[4];
+                                                partValues[0] = part.IsRemovable ? 1 : 0;
+                                                partValues[1] = (int)part.Health.Max;
+                                                partValues[2] = (int)part.Health.Current;
+                                                partValues[3] = part.TimesBrokenCount;
+                                                monsterPartsData.Add((monster.Parts.IndexOf(part) + 1).ToString(), partValues);
+                                            }
+                                            monsterData.Add("parts", monsterPartsData);
+
+                                            Dictionary<string, int[]> monsterStatusesData = new Dictionary<string, int[]>();
+                                            foreach (var status in monster.StatusEffects)
+                                            {
+                                                int[] statusValues = new int[5];
+                                                statusValues[0] = (int)status.Buildup.Max;
+                                                statusValues[1] = (int)status.Buildup.Current;
+                                                statusValues[2] = (int)status.Duration.Max;
+                                                statusValues[3] = (int)status.Duration.Current;
+                                                statusValues[4] = (int)status.TimesActivatedCount;
+                                                monsterStatusesData.Add(status.Index.ToString(), statusValues);
+                                            }
+                                            monsterData.Add("statuses", monsterStatusesData);
+                                            data.Add(monster.Id, monsterData);
+                                        }
+                                    }
+                                }
+                                if (data.Keys.Count > 0)
+                                {
+                                    networkOperationDone = false;
+                                    ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PUSH, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, null, true, 0, JsonConvert.SerializeObject(data), (result, ping) =>
+                                    {
+                                        if (result != null && result["status"].ToString().Equals("error"))
+                                        {
+                                            if (result["result"].ToString().Equals("false"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                            else if (result["result"].ToString().Equals("0"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }else if (result["result"].ToString().Equals("v"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                                            }
+                                            else if (result["result"].ToString().Equals("dev"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("The server is under maintenance!");
+                                            }
+                                        }
+                                        networkOperationDone = true;
+                                        lastNetworkOperationTime = DateTime.Now.Second;
+                                    }, (error) =>
+                                    {
+                                        networkOperationDone = true;
+                                        lastNetworkOperationTime = DateTime.Now.Second;
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }else
+                {
+                    if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone)
+                    {
+                        if (networkOperationDone && DateTime.Now.Second != lastNetworkOperationTime)
+                        {
+                            networkOperationDone = false;
+                            ServerManager.Instance.RequestCommadWithHandler(ServerManager.Command.PULL, OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.key, null, false, 0, null, (result, ping) =>
+                            {
+                                if (result != null)
+                                {
+                                    if (result["status"].ToString().Equals("ok"))
+                                    {
+                                        if (!result["result"].ToString().Equals(""))
+                                        {
+                                            var monstersData = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>(result["result"].ToString());//.ToObject<Dictionary<string, Dictionary<string, Dictionary<string, int[]>>>>();
+                                            foreach (var id in monstersData.Keys)
+                                            {
+                                                var m = OverlayViewModel.Instance.MonsterWidget.Context.Monsters.Where(m => m.Id.Equals(id));
+                                                if (m.Any())
+                                                {
+                                                    var monster = m.First();
+                                                    var monsterData = monstersData[monster.Id];
+                                                    var monsterPartsData = monsterData["parts"];
+                                                    var monsterStatusesData = monsterData["statuses"];
+
+                                                    UpdateMonsterParts(monsterPartsData, monster);
+                                                    UpdateMonsterStatusEffects(monsterStatusesData, monster);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (result["status"].ToString().Equals("error"))
+                                        {
+                                            if (result["result"].ToString().Equals("false"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }
+                                            else if (result["result"].ToString().Equals("0"))
+                                            {
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
+                                                OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
+                                            }else if (result["result"].ToString().Equals("v"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
+                                            }
+                                            else if (result["result"].ToString().Equals("dev"))
+                                            {
+                                                ServerManager.Instance.IsServerOline = -1;
+                                                Core.Log.WriteLine("The server is under maintenance!");
+                                            }
+                                        }
+                                    }
+                                }
+                                networkOperationDone = true;
+                                lastNetworkOperationTime = DateTime.Now.Second;
+                            }, (error) =>
+                            {
+                                networkOperationDone = true;
+                                lastNetworkOperationTime = DateTime.Now.Second;
+                            });
+                        }
+                    }
+                }
             }
         }
 
@@ -317,19 +645,51 @@ namespace SmartHunter.Game.Helpers
 
             float currentHealth = MemoryHelper.Read<float>(process, health_component + DataOffsets.MonsterHealthComponent.CurrentHealth);
             float sizeScale = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + DataOffsets.Monster.SizeScale);
-
-            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale);
-
-            
-            if (SmartHunter.Game.Helpers.ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && SmartHunter.Game.Helpers.ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
+            float scaleModifier = MemoryHelper.Read<float>(process, monsterAddress + DataOffsets.Monster.MonsterStartOfStructOffset + DataOffsets.Monster.ScaleModifier);
+            if (scaleModifier <= 0 || scaleModifier >= 2)
             {
-                // TODO: I think here we can check if the current player is the host of the party, as if's not there's no point on updating monster parts (cause only the host of the party will see those parts)
-                UpdateMonsterParts(process, monster);
-                UpdateMonsterRemovableParts(process, monster);
-                UpdateMonsterStatusEffects(process, monster);
+                scaleModifier = 1;
+            }
+
+            monster = OverlayViewModel.Instance.MonsterWidget.Context.UpdateAndGetMonster(monsterAddress, id, maxHealth, currentHealth, sizeScale, scaleModifier);
+
+            if (ConfigHelper.MonsterData.Values.Monsters.ContainsKey(id) && ConfigHelper.MonsterData.Values.Monsters[id].Parts != null && ConfigHelper.MonsterData.Values.Monsters[id].Parts.Count() > 0)
+            {
+                if (OverlayViewModel.Instance.MonsterWidget.Context.AlwaysShowParts || (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsValid || OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsCurrentPlayerLobbyHost() || !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.IsPlayerOnline()))
+                {
+                    UpdateMonsterParts(process, monster);
+                    if (ConfigHelper.MonsterData.Values.Monsters[id].Parts.Where(p => p.IsRemovable).Count() > 0) // In case you are testing add "|| true"
+                    {
+                        UpdateMonsterRemovableParts(process, monster);
+                    }
+                    UpdateMonsterStatusEffects(process, monster);
+                }
+                else
+                {
+                    if (!OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone || !OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone)
+                    {
+                        UpdateMonsterStatusEffects(process, monster);
+                    }
+                }
             }
 
             return monster;
+        }
+
+        private static void UpdateMonsterParts(Dictionary<string, int[]>parts, Monster monster)
+        {
+            foreach (KeyValuePair<string, int[]> entry in parts)
+            {
+                monster.UpdateAndGetPart(ulong.Parse(entry.Key), entry.Value[0] == 1, entry.Value[1], entry.Value[2], (int)entry.Value[3]);
+            }
+        }
+
+        private static void UpdateMonsterStatusEffects(Dictionary<string, int[]> statuses, Monster monster)
+        {
+            foreach (KeyValuePair<string, int[]> entry in statuses)
+            {
+                monster.UpdateAndGetStatusEffect(ulong.Parse(entry.Key), int.Parse(entry.Key), entry.Value[0], entry.Value[1], entry.Value[2], entry.Value[3], (int)entry.Value[4]);
+            }
         }
 
         private static void UpdateMonsterParts(Process process, Monster monster)
@@ -392,39 +752,22 @@ namespace SmartHunter.Game.Helpers
                     {
                         removablePartAddress += 8;
                     }
-                    
-                    // This is rough/hacky but it removes seemingly valid parts that aren't actually "removable".
-                    // TODO: Figure out why Paolumu, Barroth, Radobaan have these mysterious removable parts
-                    bool isValid1 = true;
-                    bool isValid2 = true;
-                    bool isValid3 = true;
 
-                    int validity1 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity1);
-                    isValid1 = validity1 == 1;
-                    if (!ConfigHelper.Main.Values.Debug.ShowWeirdRemovableParts)
-                    {                                           
-                        int validity2 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity2);
-                        int validity3 = MemoryHelper.Read<int>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.Validity3);
+                    uint maxRemovableParts = (uint)ConfigHelper.MonsterData.Values.Monsters[monster.Id].Parts.Where(p => p.IsRemovable).Count();
+                    bool isLast = MemoryHelper.Read<uint>(process, removablePartAddress + 0x94) == 0x1;
+                    //bool isValid = MemoryHelper.Read<byte>(process, removablePartAddress + 0x15) == 0;
+                    bool isValid = MemoryHelper.Read<uint>(process, removablePartAddress + 0x6C) < maxRemovableParts;
 
-                        isValid2 = validity3 == 0 || validity3 == 1;
-
-                        isValid3 = true;
-                        if (validity3 == 0 && validity2 != 1)
-                        {
-                            isValid3 = false;
-                        }
-                    }
-
-                    if (isValid1 && isValid2 && isValid3)
+                    if (isValid)
                     {
                         float maxHealth = MemoryHelper.Read<float>(process, removablePartAddress + DataOffsets.MonsterRemovablePart.MaxHealth);
                         if (maxHealth > 0)
                         {
                             UpdateMonsterRemovablePart(process, monster, removablePartAddress);
-                        }
-                        else
-                        {
-                            break;
+                            if (isLast || monster.Parts.Where(p => p.IsRemovable).Count() == maxRemovableParts)
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -446,10 +789,15 @@ namespace SmartHunter.Game.Helpers
         {
             int maxIndex = ConfigHelper.MonsterData.Values.StatusEffects.Where(s => s.GroupId.Equals("StatusEffect")).Count() - 1;
             var statuses = monster.StatusEffects;
-            if (statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
+            if (statuses != null && statuses.Where(s => s.GroupId.Equals("StatusEffect")).Any())
             {
-                foreach (MonsterStatusEffect status in statuses)
+                for (int i = 0; i < statuses.Count(); i++)
                 {
+                    MonsterStatusEffect status = statuses[i];
+                    if (status == null)
+                    {
+                        continue;
+                    }
                     float currentBuildup = 0;
                     float maxBuildup = MemoryHelper.Read<float>(process, status.Address + DataOffsets.MonsterStatusEffect.MaxBuildup);
                     if (maxBuildup > 0)
@@ -511,7 +859,7 @@ namespace SmartHunter.Game.Helpers
                         if (maxBuildup > 0 || maxDuration > 0)
                         {
                             uint index = MemoryHelper.Read<uint>(process, currentStatusPointer + 0x198);
-                            if (index <= maxIndex && !((index == 14 || index == 15) && monster.isElder)) // skip traps for elders
+                            if (index <= maxIndex && !((index == 14 || index == 15) && monster.isElder) && index != 0) // skip traps for elders
                             {
                                 var statusEffectConfig = ConfigHelper.MonsterData.Values.StatusEffects[index];
                                 monster.UpdateAndGetStatusEffect(currentStatusPointer, (int)index, maxBuildup > 0 ? maxBuildup : 1, !statusEffectConfig.InvertBuildup ? currentBuildup : maxBuildup - currentBuildup, maxDuration, !statusEffectConfig.InvertDuration ? currentDuration : maxDuration - currentDuration, timesActivatedCount);
@@ -522,6 +870,37 @@ namespace SmartHunter.Game.Helpers
                 }
             }
 
+            // Stamina
+
+            ulong staminaAddress = monster.Address + 0x1C0D8; //0x1BE20
+            float maxStaminaBuildUp = MemoryHelper.Read<float>(process, staminaAddress + 0x4);
+            float currentStaminaBuildUp = 0;
+            if (maxStaminaBuildUp > 0)
+            {
+                currentStaminaBuildUp = MemoryHelper.Read<float>(process, staminaAddress);
+            }
+            float maxFatigueDuration = MemoryHelper.Read<float>(process, staminaAddress + 0xC);
+            float currentFatigueDuration = 0;
+            if (maxFatigueDuration > 0)
+            {
+                currentFatigueDuration = MemoryHelper.Read<float>(process, staminaAddress + 0x10);
+            }
+            int fatigueActivatedCount = MemoryHelper.Read<int>(process, staminaAddress + 0x14);
+            MonsterStatusEffectConfig statusEffect = null;
+            if (currentFatigueDuration > 0)
+            {
+                statusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Fatigue"));
+            }
+            else
+            {
+                statusEffect = ConfigHelper.MonsterData.Values.StatusEffects.SingleOrDefault(s => s.GroupId.Equals("Stamina"));
+            }
+            
+            if (maxStaminaBuildUp > 0 || currentFatigueDuration > 0)
+            {
+                monster.UpdateAndGetStatusEffect(staminaAddress, Array.IndexOf(ConfigHelper.MonsterData.Values.StatusEffects, statusEffect), maxStaminaBuildUp > 0 ? maxStaminaBuildUp : 1, !statusEffect.InvertBuildup ? currentStaminaBuildUp : maxStaminaBuildUp - currentStaminaBuildUp, maxFatigueDuration, !statusEffect.InvertDuration ? currentFatigueDuration : maxFatigueDuration - currentFatigueDuration, fatigueActivatedCount);
+            }
+            
             // Rage
             ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);
