@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SmartHunter.Core;
 using SmartHunter.Core.Helpers;
 using SmartHunter.Game.Config;
 using SmartHunter.Game.Data;
@@ -47,6 +47,8 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong PartCollection = 0x14528;
                 public static readonly ulong RemovablePartCollection = PartCollection + 0x22A0 - 0xF0 - 0xF0 - 0xF0;
                 public static readonly ulong StatusEffectCollection = 0x19900;
+                public static readonly ulong MonsterStaminaOffset = 0x1C130; //0x1BE20(???) 0x1C0D8(old) 0x1C130(now)
+                public static readonly ulong MonsterRageOffset = 0x1BE88; //0x1BE20(???) 0x1BE30(old) 0x1BE88(now)
             }
 
             public static class MonsterModel
@@ -113,9 +115,9 @@ namespace SmartHunter.Game.Helpers
                 public static readonly ulong SessionHostPlayerName = SessionID + 0x3F;
                 public static readonly ulong LobbyID = FirstPlayerName + 0x463;
                 public static readonly ulong LobbyHostPlayerName = LobbyID + 0x29;
+
                 public static readonly ulong NextLobbyHostName = 0x2F; // Is dis even right?
             }
-
             public static class PlayerDamageCollection
             {
                 public static readonly int MaxPlayerCount = 4;
@@ -360,7 +362,8 @@ namespace SmartHunter.Game.Helpers
                             else if (result["result"].ToString().Equals("false"))
                             {
                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.playersCheckDone = false;
-                            }else if (result["result"].ToString().Equals("v"))
+                            }
+                            else if (result["result"].ToString().Equals("v"))
                             {
                                 ServerManager.Instance.IsServerOline = -1;
                                 Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
@@ -526,7 +529,8 @@ namespace SmartHunter.Game.Helpers
                                             {
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                            }else if (result["result"].ToString().Equals("v"))
+                                            }
+                                            else if (result["result"].ToString().Equals("v"))
                                             {
                                                 ServerManager.Instance.IsServerOline = -1;
                                                 Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
@@ -548,7 +552,8 @@ namespace SmartHunter.Game.Helpers
                             }
                         }
                     }
-                }else
+                }
+                else
                 {
                     if (OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone && OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone)
                     {
@@ -592,7 +597,8 @@ namespace SmartHunter.Game.Helpers
                                             {
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.helloDone = false;
                                                 OverlayViewModel.Instance.DebugWidget.Context.CurrentGame.checkDone = false;
-                                            }else if (result["result"].ToString().Equals("v"))
+                                            }
+                                            else if (result["result"].ToString().Equals("v"))
                                             {
                                                 ServerManager.Instance.IsServerOline = -1;
                                                 Core.Log.WriteLine("A new version is available, please update if you want to use the server!");
@@ -677,7 +683,7 @@ namespace SmartHunter.Game.Helpers
             return monster;
         }
 
-        private static void UpdateMonsterParts(Dictionary<string, int[]>parts, Monster monster)
+        private static void UpdateMonsterParts(Dictionary<string, int[]> parts, Monster monster)
         {
             foreach (KeyValuePair<string, int[]> entry in parts)
             {
@@ -873,7 +879,7 @@ namespace SmartHunter.Game.Helpers
 
             // Stamina
 
-            ulong staminaAddress = monster.Address + 0x1C0D8; //0x1BE20
+            ulong staminaAddress = monster.Address + DataOffsets.Monster.MonsterStaminaOffset;
             float maxStaminaBuildUp = MemoryHelper.Read<float>(process, staminaAddress + 0x4);
             float currentStaminaBuildUp = 0;
             if (maxStaminaBuildUp > 0)
@@ -903,7 +909,8 @@ namespace SmartHunter.Game.Helpers
             }
 
             // Rage
-            ulong rageAddress = monster.Address + 0x1BE30; //0x1BE20
+
+            ulong rageAddress = monster.Address + DataOffsets.Monster.MonsterRageOffset;
             float maxRageBuildUp = MemoryHelper.Read<float>(process, rageAddress + 0x24);
             float currentRageBuildUp = 0;
             if (maxRageBuildUp > 0)
